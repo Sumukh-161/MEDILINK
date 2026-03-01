@@ -1,0 +1,21 @@
+from fastapi import FastAPI
+from app.database import engine, Base
+from app import models
+from app.routes import user
+from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI()
+
+# 🔥 This creates tables automatically
+Base.metadata.create_all(bind=engine)
+
+# 🔥 CORS Configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (for development only)
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
+app.include_router(user.router)
