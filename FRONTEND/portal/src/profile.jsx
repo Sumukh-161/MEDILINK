@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Calendar,
   Heart,
@@ -26,6 +26,21 @@ import {
 export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateToSchedule, onNavigateToUpload, onNavigateToBooking, onNavigateToMain }) {
   const [selectedMonth, setSelectedMonth] = useState('March');
   const [activeIcon, setActiveIcon] = useState(0);
+  const [userName, setUserName] = useState('User');
+
+  useEffect(() => {
+    try {
+      const savedUserName = localStorage.getItem('userName');
+      if (savedUserName) {
+        setUserName(savedUserName);
+      } else {
+        setUserName('Guest');
+      }
+    } catch (err) {
+      console.error('Error loading user data:', err);
+      setUserName('Guest');
+    }
+  }, []);
 
   const sidebarIcons = [
     { icon: Home },
@@ -200,7 +215,7 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                   </div>
                   <div>
                     <h2 className="text-2xl font-bold text-gray-800">
-                      Sitha
+                      {userName}
                     </h2>
                     <p className="text-gray-500">
                       Patient ID: #PAT-2024-1547
@@ -265,7 +280,7 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">Full Name</p>
                     <p className="font-semibold text-gray-800">
-                      Sitha
+                      {userName}
                     </p>
                   </div>
                   <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">

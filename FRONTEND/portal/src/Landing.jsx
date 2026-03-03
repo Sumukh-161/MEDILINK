@@ -56,7 +56,7 @@ export default function Landing() {
           <div className="flex-1">
             <p className="text-[#00bcd4] font-semibold uppercase tracking-widest text-sm mb-3">Medical</p>
             <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-5">
-              Healthcare<br />Solutions
+              Healthcare_01<br />Solutions
             </h1>
             <p className="text-gray-500 text-lg mb-8 max-w-md">
               We provide the best medical care experience. Find doctors, schedule appointments, and manage your health all in one place.
@@ -123,6 +123,165 @@ export default function Landing() {
               </div>
               <p className="text-xs text-gray-400 mb-3">Locate nearby clinics and hospitals in your area.</p>
               <button className="bg-[#00bcd4] text-gray-700 text-xs px-4 py-1.5 rounded-full hover:bg-[#0097a7] transition-colors">Locations</button>
+            </div>
+          </div>
+        </section>
+
+        {/* OUR MEDICAL SERVICES */}
+        <section className="relative z-10 bg-white py-20 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-[#00bcd4] font-semibold uppercase tracking-widest text-sm mb-2">Service</p>
+              <h2 className="text-4xl font-extrabold text-gray-900">Our Medical Services</h2>
+            </div>
+            <div className="flex flex-col md:flex-row items-center gap-12">
+              <div className="flex-1 flex justify-center relative">
+                <div className="relative w-72 h-72">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00bcd4]/20 to-[#00bcd4]/5 rounded-full" />
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/6614/6614117.png"
+                    alt="Medical"
+                    className="w-64 h-64 object-cover rounded-full absolute top-4 left-4 shadow-xl"
+                  />
+                  {["Eye Care", "Cardiology", "Medicine", "Dental", "Orthopedic"].map((s, i) => {
+                    const angle = (i / 5) * 2 * Math.PI - Math.PI / 2;
+                    const x = 50 + 45 * Math.cos(angle);
+                    const y = 50 + 45 * Math.sin(angle);
+                    return (
+                      <div
+                        key={s}
+                        className="absolute bg-white shadow-md rounded-full px-3 py-1 text-xs font-semibold text-[#00bcd4] border border-[#00bcd4]/20 whitespace-nowrap"
+                        style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%,-50%)" }}
+                      >
+                        {s}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Dental Care Service</h3>
+                <p className="text-gray-500 mb-6 leading-relaxed">
+                  Our dental care team provides comprehensive oral health services including routine checkups, cosmetic dentistry, orthodontics, and emergency dental care. We use the latest technology to ensure your smile is at its best.
+                </p>
+                <button className="bg-[#00bcd4] text-gray-700 px-6 py-2.5 rounded-full font-semibold hover:bg-[#0097a7] transition-colors shadow">
+                  Learn More
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* OUR SPECIALITY */}
+        <section className="relative z-10 py-20 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-[#00bcd4] font-semibold uppercase tracking-widest text-sm mb-2">Features</p>
+              <h2 className="text-4xl font-extrabold text-gray-900">Our Speciality</h2>
+            </div>
+            <div className="bg-gradient-to-r from-[#00bcd4] to-[#0097a7] rounded-3xl p-8 flex flex-col md:flex-row items-center gap-8 shadow-2xl">
+              <div className="flex-1 text-white">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
+                    <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                  </div>
+                  <h3 className="text-2xl font-bold">Online Appointment</h3>
+                </div>
+                <p className="opacity-90 mb-6 leading-relaxed">
+                  Schedule your medical appointments online 24/7. Choose your preferred doctor, time slot, and get instant confirmation — all from the comfort of your home.
+                </p>
+                <button className="bg-white text-[#00bcd4] px-6 py-2.5 rounded-full font-bold hover:bg-gray-50 transition-colors shadow">
+                  Learn More
+                </button>
+              </div>
+              <div className="flex-1 flex justify-center">
+                <div className="w-56 h-56 rounded-2xl overflow-hidden shadow-xl">
+                  <img
+                    src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=300&h=300&fit=crop"
+                    alt="Online Appointment"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* APPOINTMENT SCHEDULES */}
+        <section className="relative z-10 bg-white py-20 px-6">
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+            <div className="flex-1">
+              <p className="text-[#00bcd4] font-semibold uppercase tracking-widest text-sm mb-3">Time Table</p>
+              <h2 className="text-4xl font-extrabold text-gray-900 mb-5">Appointment<br />Schedules</h2>
+              <p className="text-gray-500 mb-8 leading-relaxed max-w-md">
+                View our comprehensive appointment timetable and find the perfect slot that fits your schedule. Our streamlined booking system ensures you never have to wait long.
+              </p>
+              <Link to="/signup">
+                <button className="bg-[#00bcd4] text-gray-700 px-8 py-3 rounded-full font-bold hover:bg-[#0097a7] transition-colors shadow-lg">
+                  Schedule
+                </button>
+              </Link>
+            </div>
+            <div className="flex-1 flex justify-center">
+              <div className="relative">
+                <div className="w-64 h-64 bg-gradient-to-br from-[#00bcd4] to-[#0097a7] rounded-3xl shadow-2xl p-4 transform rotate-3">
+                  <div className="bg-white/20 rounded-xl p-2 mb-2">
+                    <p className="text-white font-bold text-center text-sm">February 2026</p>
+                  </div>
+                  <div className="grid grid-cols-7 gap-1">
+                    {["S","M","T","W","T","F","S"].map((d,i) => (
+                      <div key={i} className="text-white/70 text-xs text-center font-semibold">{d}</div>
+                    ))}
+                    {Array.from({length: 28}, (_,i) => (
+                      <div key={i} className={`text-xs text-center py-1 rounded-lg font-medium ${
+                        i+1 === 16 ? "bg-white text-[#00bcd4]" : "text-white"
+                      }`}>{i+1}</div>
+                    ))}
+                  </div>
+                </div>
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-white rounded-2xl shadow-xl flex items-center justify-center border border-gray-100">
+                  <div className="text-center">
+                    <p className="text-3xl font-extrabold text-[#00bcd4]">24</p>
+                    <p className="text-xs text-gray-500 font-semibold">Slots Today</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* OUR DOCTORS */}
+        <section className="relative z-10 py-20 px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <p className="text-[#00bcd4] font-semibold uppercase tracking-widest text-sm mb-2">Team</p>
+              <h2 className="text-4xl font-extrabold text-gray-900">Our Doctors</h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+              {[
+                { name: "Dr. Sarah Johnson", role: "Cardiologist", img: "https://as1.ftcdn.net/v2/jpg/01/03/94/32/1000_F_103943265_Bc2gEerF75zmw7UziBL1FLkS2vBEnFNo.jpg" },
+                { name: "Dr. Michael Chen", role: "Neurologist", img: "https://tse4.mm.bing.net/th/id/OIP.-02-txfc-2WE4rXwkDSV9wAAAA?w=200&h=200&rs=1&pid=ImgDetMain&o=7&rm=3" },
+              ].map((doc) => (
+                <div key={doc.name} className="bg-white rounded-3xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow group border border-gray-100">
+                  <div className="w-28 h-28 mx-auto rounded-2xl overflow-hidden mb-4 shadow-md group-hover:scale-105 transition-transform">
+                    <img src={doc.img} alt={doc.name} className="w-full h-full object-cover" />
+                  </div>
+                  <h3 className="font-bold text-gray-900 text-lg">{doc.name}</h3>
+                  <p className="text-[#00bcd4] font-semibold text-sm mt-1">{doc.role}</p>
+                  <div className="flex justify-center gap-3 mt-4">
+                    {["linkedin","twitter","mail"].map(s => (
+                      <div key={s} className="w-8 h-8 bg-[#00bcd4]/10 rounded-full flex items-center justify-center hover:bg-[#00bcd4]/20 cursor-pointer transition-colors">
+                        <div className="w-3 h-3 bg-[#00bcd4] rounded-sm opacity-70" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="text-center">
+              <button className="border-2 border-[#00bcd4] text-[#00bcd4] px-8 py-3 rounded-full font-bold hover:bg-[#00bcd4] hover:text-white transition-colors">
+                See All Doctors
+              </button>
             </div>
           </div>
         </section>

@@ -56,7 +56,7 @@ export default function MedCare() {
           <div className="flex-1">
             <p className="text-[#00bcd4] font-semibold uppercase tracking-widest text-sm mb-3">Medical</p>
             <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight mb-5">
-              Healthcare<br />Solutions
+              Healthcare_01<br />Solutions
             </h1>
             <p className="text-gray-500 text-lg mb-8 max-w-md">
               We provide the best medical care experience. Find doctors, schedule appointments, and manage your health all in one place.
