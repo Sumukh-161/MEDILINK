@@ -65,3 +65,47 @@ def login_user(db: Session, user):
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
+
+
+def get_profile_by_gmail(db: Session, gmail: str):
+    # Query profile directly by email
+    profile = db.query(models.Profile).filter(
+        models.Profile.email == gmail
+    ).first()
+
+    if not profile:
+        raise HTTPException(status_code=404, detail="Profile not found")
+
+    # Return profile data
+    return {
+        "patientId": profile.patient_id,
+        "name": profile.name,
+        "email": profile.email,
+        "contactNumber": profile.contact_number,
+        "dob": profile.dob,
+        "bloodType": profile.blood_type,
+        "allergies": profile.allergies,
+        "sex": profile.sex,
+        "age": profile.age,
+        "height": profile.height,
+    }
+
+def create_report(db: Session, report_data: dict):
+    db_report = models.Report(**report_data)
+    db.add(db_report)
+    db.commit()
+    db.refresh(db_report)
+    return db_report
+
+def get_reports_by_gmail(db: Session, gmail: str):
+    reports = db.query(models.Report).filter(
+        models.Report.user_gmail == gmail
+    ).all()
+    return reports
+
+
+def get_medications_by_gmail(db: Session, gmail: str):
+    medications = db.query(models.Medication).filter(
+        models.Medication.user_gmail == gmail
+    ).all()
+    return medications

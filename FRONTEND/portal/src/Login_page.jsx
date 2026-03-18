@@ -44,9 +44,8 @@ export default function LoginPage() {
         if (data.name) {
           localStorage.setItem("userName", data.name);
         }
-        if (data.email) {
-          localStorage.setItem("userEmail", data.email);
-        }
+        // Save email from form input (not from API response)
+        localStorage.setItem("userEmail", form.email);
         localStorage.setItem("userRole", role);
         // Navigate to Home_page
         navigate("/home");

@@ -24,22 +24,77 @@ import {
 } from 'lucide-react';
 
 export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateToSchedule, onNavigateToUpload, onNavigateToBooking, onNavigateToMain }) {
+  // Default static data fallback
+  const defaultData = {
+    email: '',
+    contactNumber: '',
+    dob: '',
+    age: '',
+    bloodType: '',
+    allergies: '',
+    lastVisit: 'March, 2024',
+    status: 'Under Treatment',
+    nextAppointment: {
+      date: 'April 15, 2024',
+      time: '10:00 AM',
+      type: 'Follow-up Consultation'
+    }
+  };
+
   const [selectedMonth, setSelectedMonth] = useState('March');
   const [activeIcon, setActiveIcon] = useState(0);
   const [userName, setUserName] = useState('User');
+  const [profileData, setProfileData] = useState(defaultData);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    try {
-      const savedUserName = localStorage.getItem('userName');
-      if (savedUserName) {
-        setUserName(savedUserName);
-      } else {
-        setUserName('Guest');
+    console.log('🚀 Profile component mounted');
+    
+    const fetchProfileData = async () => {
+      try {
+        const savedUserName = localStorage.getItem('userName');
+        const userEmail = localStorage.getItem('userEmail');
+        
+        console.log('📧 Email from localStorage:', userEmail);
+        console.log('👤 Name from localStorage:', savedUserName);
+        console.log('Current profileData state:', profileData);
+        
+        if (savedUserName) {
+          setUserName(savedUserName);
+        }
+
+        if (userEmail) {
+          const encodedEmail = encodeURIComponent(userEmail);
+          const apiUrl = `http://127.0.0.1:8000/users/profile?gmail=${encodedEmail}`;
+          console.log('🔗 API URL:', apiUrl);
+          
+          const response = await fetch(apiUrl);
+          console.log('📊 Response status:', response.status);
+          
+          if (response.ok) {
+            const data = await response.json();
+            console.log('✅ Raw API response:', data);
+            console.log('Setting profileData to:', data);
+            setProfileData(data);
+            console.log('profileData state should now be updated');
+          } else {
+            console.warn('❌ API returned non-200 status:', response.status);
+          }
+        } else {
+          console.warn('⚠️ No email in localStorage');
+        }
+      } catch (err) {
+        console.error('💥 Fetch error:', err);
+        console.error('Error stack:', err.stack);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.error('Error loading user data:', err);
-      setUserName('Guest');
-    }
+    };
+
+    console.log('Calling fetchProfileData...');
+    fetchProfileData();
+    console.log('fetchProfileData call completed');
   }, []);
 
   const sidebarIcons = [
@@ -50,6 +105,17 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
     { icon: CreditCard },
     { icon: User },
   ];
+
+  if (loading) {
+    return (
+      <div className="h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block w-12 h-12 border-4 border-teal-400 border-t-teal-600 rounded-full animate-spin mb-4"></div>
+          <p className="text-gray-600">Loading profile data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 flex items-center justify-center p-6 gap-6">
@@ -184,24 +250,24 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
         {/* Main Content */}
         <div className="flex-1 overflow-auto p-6 bg-gray-50">
         {/* Page Title */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <button className="p-2 hover:bg-white rounded-lg">
-              <ChevronLeft className="w-6 h-6 text-gray-600" />
-            </button>
-            <h1 className="text-3xl font-bold text-gray-800">
-              Patient Profile
-            </h1>
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <button className="p-2 hover:bg-gray-100 rounded-lg">
+                <ChevronLeft className="w-6 h-6 text-gray-600" />
+              </button>
+              <h1 className="text-3xl font-bold text-gray-800">
+                Patient Profile
+              </h1>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg font-medium">
+                {profileData?.status || 'Under Treatment'}
+              </span>
+              <span className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-600">
+                Last Visit: {profileData?.lastVisit || 'March, 2024'}
+              </span>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
-            <span className="px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg font-medium">
-              Under Treatment
-            </span>
-            <span className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-600">
-              Last Visit: March, 2024
-            </span>
-          </div>
-        </div>
 
         <div className="grid grid-cols-3 gap-6">
           {/* Left Column - Patient Info */}
@@ -218,7 +284,7 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                       {userName}
                     </h2>
                     <p className="text-gray-500">
-                      Patient ID: #PAT-2024-1547
+                      Patient ID: {profileData?.patientId ? `#${profileData.patientId}` : 'Not provided'}
                     </p>
                   </div>
                 </div>
@@ -252,13 +318,13 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                 <div className="flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-lg px-4 py-3">
                   <Calendar className="w-5 h-5 text-blue-600" />
                   <span className="font-semibold text-gray-800">
-                    April 15, 2024 - 10:00 AM
+                    {profileData?.nextAppointment?.date} - {profileData?.nextAppointment?.time || 'TBA'}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-4 py-2 mt-2">
                   <Clock className="w-4 h-4 text-gray-400" />
                   <span className="text-sm text-gray-600">
-                    Follow-up Consultation
+                    {profileData?.nextAppointment?.type || 'Follow-up Consultation'}
                   </span>
                   <span className="ml-auto bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">
                     Confirmed
@@ -295,7 +361,7 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">Email Address</p>
                     <p className="font-semibold text-gray-800">
-                      sithamahalakshmi@gmail.com
+                      {profileData?.email || 'Not provided'}
                     </p>
                   </div>
                 </div>
@@ -307,7 +373,7 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">Contact Number</p>
                     <p className="font-semibold text-gray-800">
-                      9535673968
+                      {profileData?.contactNumber || 'Not provided'}
                     </p>
                   </div>
                 </div>
@@ -319,7 +385,7 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">Date of Birth</p>
                     <p className="font-semibold text-gray-800">
-                      March 15, 1985 (Age: 39)
+                      {profileData?.dob ? `${profileData.dob} ${profileData.age ? `(Age: ${profileData.age})` : ''}` : 'Not provided'}
                     </p>
                   </div>
                 </div>
@@ -330,7 +396,7 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                   </div>
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">Blood Type</p>
-                    <p className="font-semibold text-gray-800">O+</p>
+                    <p className="font-semibold text-gray-800">{profileData?.bloodType || 'Not provided'}</p>
                   </div>
                 </div>
 
@@ -341,7 +407,7 @@ export default function PatientProfile({ onBack, onNavigateToHealth, onNavigateT
                   <div className="flex-1">
                     <p className="text-xs text-gray-500">Allergies</p>
                     <p className="font-semibold text-gray-800">
-                      Penicillin, Peanuts
+                      {profileData?.allergies || 'Not provided'}
                     </p>
                   </div>
                 </div>

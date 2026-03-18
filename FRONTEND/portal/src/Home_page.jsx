@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Calendar,
+  Loader2,
   Bell,
   Settings,
   Plus,
@@ -16,11 +17,15 @@ import {
 } from "lucide-react";
 import doctorImage from './doctorooo.jpeg';
 import doctorImage_1 from './Anya........png';
+import doctorImage_3 from './Lufy.png';
 import doctorImage_2 from './doctereeeee......png';
 import my_consultation from './consultation.png';
+import my_consultation1 from './clip_board_resize.png';
 import pills from './pills.png';
+import tabi from './Tablet.jpg';
 import Reports from './Reports.jpg';
 import tabu from './Capsule_01.png';
+import volunteerImg from './volunteer_2.jpg';
 import HealthDashboard from './H_Track.jsx';
 import CalendarUI from './schedule.jsx';
 import PatientProfile from './profile.jsx';
@@ -37,6 +42,24 @@ const MourUI = () => {
   const [userName, setUserName] = useState("User");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Reports Modal State
+  const [showReportsModal, setShowReportsModal] = useState(false);
+  const [reportsData, setReportsData] = useState([]);
+  const [reportsLoading, setReportsLoading] = useState(false);
+  const [reportsError, setReportsError] = useState(null);
+
+  // Default patient info
+  const defaultProfileData = {
+    sex: "Female",
+    age: 19,
+    height: "168 cm",
+    weight: "52 kg",
+    bloodType: "B+",
+    fitzpatrick: "3rd type"
+  };
+
+  const [profileData, setProfileData] = useState(defaultProfileData);
 
   const scheduleItems = [
     { id: 1, title: "Hirurgy", doctor: "Ann Curgy", color: "bg-red-100", icon: "🏥" },
@@ -55,20 +78,55 @@ const MourUI = () => {
 
   // Fetch user data on mount
   useEffect(() => {
-    try {
-      const savedUserName = localStorage.getItem("userName");
-      if (savedUserName) {
-        setUserName(savedUserName);
-      } else {
-        // Set a default name instead of redirecting, to prevent white screen
+    const fetchUserData = async () => {
+      try {
+        const savedUserName = localStorage.getItem("userName");
+        const userEmail = localStorage.getItem("userEmail");
+
+        console.log('📧 User email:', userEmail);
+        console.log('👤 User name:', savedUserName);
+
+        if (savedUserName) {
+          setUserName(savedUserName);
+        } else {
+          setUserName("Guest");
+        }
+
+        // Fetch profile data
+        if (userEmail) {
+          const encodedEmail = encodeURIComponent(userEmail);
+          const apiUrl = `http://127.0.0.1:8000/users/profile?gmail=${encodedEmail}`;
+          console.log('🔗 Fetching from:', apiUrl);
+
+          const response = await fetch(apiUrl);
+          console.log('📊 Response status:', response.status);
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log('✅ Full API response:', data);
+            console.log('Age from API:', data.age);
+            console.log('Blood type from API:', data.bloodType);
+            setProfileData(data);
+            console.log('profileData state updated with:', data);
+          } else {
+            console.warn('❌ Failed to fetch profile (status:', response.status, ')');
+            setProfileData(defaultProfileData);
+          }
+        } else {
+          console.warn('⚠️ No email in localStorage');
+          setProfileData(defaultProfileData);
+        }
+
+        setLoading(false);
+      } catch (err) {
+        console.error("💥 Fetch error:", err);
         setUserName("Guest");
+        setProfileData(defaultProfileData);
+        setLoading(false);
       }
-      setLoading(false);
-    } catch (err) {
-      console.error("Error loading user data:", err);
-      setUserName("Guest");
-      setLoading(false);
-    }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleLogout = () => {
@@ -81,6 +139,45 @@ const MourUI = () => {
       console.error("Logout error:", err);
       // Even if error, try to navigate
       navigate("/login");
+    }
+  };
+
+  const handleReportsClick = async () => {
+    setShowReportsModal(true);
+    setReportsLoading(true);
+    setReportsError(null);
+    setReportsData([]);
+
+    try {
+      const userEmail = localStorage.getItem("userEmail");
+      if (!userEmail) {
+        throw new Error("User email not found. Please login again.");
+      }
+
+      const encodedEmail = encodeURIComponent(userEmail);
+      const url = `http://127.0.0.1:8000/reports/?gmail=${encodedEmail}`;
+      console.log('Fetching reports from:', url);
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch reports. Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Reports data:', data);
+
+      // The API returns an array under the "data" key
+      if (data && data.data && Array.isArray(data.data)) {
+        setReportsData(data.data);
+      } else {
+        throw new Error("Invalid response format from server.");
+      }
+    } catch (err) {
+      console.error("Error fetching reports:", err);
+      setReportsError(err.message);
+    } finally {
+      setReportsLoading(false);
     }
   };
 
@@ -198,18 +295,16 @@ const MourUI = () => {
                 <button
                   key={index}
                   onClick={() => handleNavigation(index)}
-                  className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
-                    isActive
-                      ? 'bg-white shadow-lg scale-110'
-                      : 'hover:bg-white/20'
-                  }`}
+                  className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${isActive
+                    ? 'bg-white shadow-lg scale-110'
+                    : 'hover:bg-white/20'
+                    }`}
                 >
                   <Icon
-                    className={`w-7 h-7 ${
-                      isActive
-                        ? isTopSection ? 'text-teal-500' : 'text-gray-400'
-                        : 'text-white'
-                    }`}
+                    className={`w-7 h-7 ${isActive
+                      ? isTopSection ? 'text-teal-500' : 'text-gray-400'
+                      : 'text-white'
+                      }`}
                   />
                 </button>
               );
@@ -271,7 +366,7 @@ const MourUI = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-white/40 to-white/20"></div>
               <div className="relative flex items-center p-8 gap-8">
                 <img
-                  src={doctorImage_1}
+                  src={profileData?.sex?.toLowerCase() === "male" ? doctorImage_3 : doctorImage_1}
                   alt="Patient"
                   className="w-40 h-40 object-cover rounded-3xl flex-shrink-0 bg-gray-200"
                   onError={(e) => {
@@ -283,12 +378,12 @@ const MourUI = () => {
                     Hello, {userName}, here your main indexes:
                   </h2>
                   <div className="grid grid-cols-6 gap-6">
-                    <IndexItem label="Sex" value="Female" />
-                    <IndexItem label="Age" value="19 y/o" />
-                    <IndexItem label="Height" value="168 cm" />
-                    <IndexItem label="Weight" value="52 kg" />
-                    <IndexItem label="Blood type" value="B+" />
-                    <IndexItem label="Fitzpatrick" value="3rd type" />
+                    <IndexItem label="Sex" value={profileData?.sex || "Female"} />
+                    <IndexItem label="Age" value={profileData?.age ? `${profileData.age} y/o` : "19 y/o"} />
+                    <IndexItem label="Height" value={profileData?.height || "168 cm"} />
+                    <IndexItem label="Weight" value={profileData?.weight || "52 kg"} />
+                    <IndexItem label="Blood type" value={profileData?.bloodType || "B+"} />
+                    <IndexItem label="Fitzpatrick" value={profileData?.fitzpatrick || "3rd type"} />
                   </div>
                 </div>
               </div>
@@ -300,11 +395,10 @@ const MourUI = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`pb-4 text-sm font-medium capitalize border-b-2 transition ${
-                    activeTab === tab
-                      ? "border-teal-500 text-gray-800"
-                      : "border-transparent text-gray-400 hover:text-gray-600"
-                  }`}
+                  className={`pb-4 text-sm font-medium capitalize border-b-2 transition ${activeTab === tab
+                    ? "border-teal-500 text-gray-800"
+                    : "border-transparent text-gray-400 hover:text-gray-600"
+                    }`}
                 >
                   {tab === "doctor" ? "Doctor Page" : tab.charAt(0).toUpperCase() + tab.slice(1)}
                 </button>
@@ -313,29 +407,45 @@ const MourUI = () => {
 
             {/* INFO CARDS */}
             <div className="grid grid-cols-3 gap-3 justify-items-start max-w-full">
-              <InfoCard image={pills} title="Pills schedule" subtitle="5 pills" />
-              <InfoCard image={Reports} title="My reports" subtitle="5 files" />
-              <InfoCard image={my_consultation} title="My consultation" subtitle="4 consultations" />
+              <InfoCard image={tabi} title="Pills schedule" subtitle="5 pills" />
+              <InfoCard
+                image={Reports}
+                title="My reports"
+                subtitle="View your files"
+                onClick={handleReportsClick}
+                clickable={true}
+              />
+              <InfoCard image={my_consultation1} title="My consultation" subtitle="4 consultations" />
             </div>
 
             {/* BOTTOM SECTION */}
             <div className="flex-1 grid grid-cols-[45%_55%] gap-6">
 
               {/* COMMUNITY CARD */}
-              <div className="bg-gradient-to-br from-teal-50 to-cyan-100 rounded-3xl p-6 flex flex-col shadow-sm border border-teal-100">
-                <p className="text-xs uppercase tracking-wider text-teal-500 mb-2 font-semibold">Community</p>
-                <h3 className="text-xl font-semibold text-gray-800 leading-tight mb-6">
-                  Join to our<br />medicine volunteer
-                </h3>
-                <div className="grid grid-cols-2 gap-4 mb-6 flex-1">
-                  <CommunityRow label="Place" value="Monday" icon="📍" />
-                  <CommunityRow label="Time" value="3 pm" icon="🕒" />
-                  <CommunityRow label="Goals" value="help to people" icon="🎯" />
-                  <CommunityRow label="Condition" value="be available" icon="✅" />
+              <div className="relative rounded-3xl p-6 flex flex-col shadow-sm border border-teal-100 overflow-hidden min-h-full">
+                <img
+                  src={volunteerImg}
+                  alt="Volunteer Background"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-teal-50/80 to-cyan-100/90 hover:from-teal-50/60 hover:to-cyan-100/70 transition-all"></div>
+
+                <div className="relative z-10 flex flex-col h-full">
+                  <p className="text-xs uppercase tracking-wider text-teal-700 mb-2 font-bold drop-shadow-sm">Community</p>
+                  <h3 className="text-xl font-semibold text-gray-900 leading-tight mb-6 drop-shadow-sm">
+                    Join to our<br />medicine volunteer
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4 mb-6 flex-1">
+                    <CommunityRow label="Place" value="Monday" icon="📍" />
+                    <CommunityRow label="Time" value="3 pm" icon="🕒" />
+                    <CommunityRow label="Goals" value="help to people" icon="🎯" />
+                    <CommunityRow label="Condition" value="be available" icon="✅" />
+                  </div>
+                  <button className="bg-teal-500 text-white rounded-2xl px-8 py-3 text-sm font-medium hover:bg-teal-600 transition shadow-md mt-auto">
+                    Join
+                  </button>
                 </div>
-                <button className="bg-teal-500 text-white rounded-2xl px-8 py-3 text-sm font-medium hover:bg-teal-600 transition shadow-md">
-                  Join
-                </button>
               </div>
 
               {/* SCHEDULE LIST */}
@@ -397,13 +507,12 @@ const MourUI = () => {
                     <button
                       key={date}
                       onClick={() => setSelectedDate(date)}
-                      className={`w-10 h-10 rounded-xl font-medium transition ${
-                        isSelected
-                          ? "bg-teal-500 text-white shadow-md"
-                          : isSpecial
+                      className={`w-10 h-10 rounded-xl font-medium transition ${isSelected
+                        ? "bg-teal-500 text-white shadow-md"
+                        : isSpecial
                           ? "bg-pink-100 text-pink-600"
                           : "text-gray-700 hover:bg-gray-100"
-                      }`}
+                        }`}
                     >
                       {date === 19 ? "🌸" : date}
                     </button>
@@ -424,24 +533,86 @@ const MourUI = () => {
           </div>
         </div>
       </div>
+
+      {/* REPORTS MODAL */}
+      {showReportsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-3xl shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50">
+              <h2 className="text-xl font-bold text-gray-800">My Reports</h2>
+              <button
+                onClick={() => setShowReportsModal(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full transition"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6">
+              {reportsLoading ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <Loader2 className="w-8 h-8 text-teal-500 animate-spin mb-4" />
+                  <p className="text-gray-500 font-medium">Loading your reports...</p>
+                </div>
+              ) : reportsError ? (
+                <div className="bg-red-50 text-red-600 p-4 rounded-xl text-center border border-red-100">
+                  <p className="font-medium mb-2">Oops!</p>
+                  <p>{reportsError}</p>
+                </div>
+              ) : reportsData && reportsData.length > 0 ? (
+                <div className="space-y-4">
+                  {reportsData.map((report) => (
+                    <a
+                      key={report.id}
+                      href={report.drive_link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block p-5 rounded-2xl border border-gray-100 bg-white hover:bg-teal-50 hover:border-teal-200 hover:shadow-md transition-all group"
+                    >
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="font-semibold text-lg text-gray-800 group-hover:text-teal-700">{report.report_title}</h3>
+                        <span className="text-xs font-medium px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full">{report.date}</span>
+                      </div>
+                      <div className="flex gap-4 text-sm text-gray-500">
+                        <span className="flex items-center gap-1.5"><span className="text-teal-500">🏥</span> {report.hospital_name}</span>
+                        <span className="flex items-center gap-1.5"><span className="text-blue-500">👨‍⚕️</span> {report.doctor_name}</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">📄</div>
+                  <p className="text-gray-500 font-medium text-lg">No reports found.</p>
+                  <p className="text-sm text-gray-400 mt-1">Check back later or upload a new one.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
 
-const InfoCard = ({ bg, icon, title, subtitle, dark, tall, image }) => {
+const InfoCard = ({ bg, icon, title, subtitle, dark, tall, image, onClick, clickable }) => {
   const [imageError, setImageError] = useState(false);
 
   return (
-    <div className={`${image && !imageError ? 'relative' : bg} rounded-3xl p-6 shadow-md border ${dark ? 'border-teal-400' : 'border-gray-100'} min-h-80 w-full max-w-xs overflow-hidden`}>
+    <div
+      onClick={clickable ? onClick : undefined}
+      className={`${image && !imageError ? 'relative' : bg} rounded-3xl p-6 shadow-md border ${dark ? 'border-teal-400' : 'border-gray-100'} min-h-80 w-full max-w-xs overflow-hidden ${clickable ? 'cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group' : ''}`}
+    >
       {image && !imageError ? (
         <>
           <img
             src={image}
             alt={title}
-            className="absolute inset-0 w-full h-full object-cover"
+            className={`absolute inset-0 w-full h-full object-cover ${clickable ? 'group-hover:scale-105 transition-transform duration-500' : ''}`}
             onError={() => setImageError(true)}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40"></div>
           <div className="relative flex flex-col h-full justify-end">
             <h3 className="text-sm font-semibold mb-1 text-white">{title}</h3>
             <p className="text-xs text-white/80">{subtitle}</p>

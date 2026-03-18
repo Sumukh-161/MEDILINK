@@ -1,7 +1,7 @@
 from app.schemas import UserCreate
 from app.database import get_db
 from app import crud
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from app.schemas import UserLogin
 
@@ -16,3 +16,8 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 @router.post("/login")
 def login(user: UserLogin, db: Session = Depends(get_db)):
     return crud.login_user(db=db, user=user)
+
+
+@router.get("/profile")
+def get_profile(gmail: str = Query(...), db: Session = Depends(get_db)):
+    return crud.get_profile_by_gmail(db=db, gmail=gmail)
