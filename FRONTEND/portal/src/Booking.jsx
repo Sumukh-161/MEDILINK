@@ -1,275 +1,306 @@
-import React, { useState } from 'react';
-import { Calendar, Clock, User, Phone, CreditCard, CheckCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, ChevronDown, Star, MapPin, Bell, Home, Heart, Upload, BookUser, CreditCard, User, Loader2 } from 'lucide-react';
 
-export default function AppointmentBooking({ onBack }) {
-  const [formData, setFormData] = useState({
-    bookingFor: 'myself',
-    fullName: '',
-    phone: '',
-    idType: 'national',
-    idNumber: '',
-    appointmentDate: '',
-    appointmentTime: '',
-    reason: ''
-  });
+export default function AppointmentBooking({ 
+  onNavigateToMain, 
+  onNavigateToHealth, 
+  onNavigateToUpload, 
+  onNavigateToSchedule, 
+  onNavigateToProfile 
+}) {
+  const [userName, setUserName] = useState("Sarah");
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [activeIcon, setActiveIcon] = useState(3); // BookUser icon at index 3
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Appointment booked:', formData);
-    alert('Appointment request submitted successfully!');
-  };
+  // Search filter states
+  const [filterType, setFilterType] = useState('All');
+  const [filterCity, setFilterCity] = useState('All');
+  const [filterExperience, setFilterExperience] = useState('All');
+  const [filterMode, setFilterMode] = useState('All');
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  const sidebarIcons = [
+    { icon: Home },
+    { icon: Heart },
+    { icon: Upload },
+    { icon: BookUser },
+    { icon: CreditCard },
+    { icon: User },
+  ];
+
+  useEffect(() => {
+    // Fetch user name if stored
+    const storedName = localStorage.getItem("userName");
+    if (storedName) {
+      setUserName(storedName);
+    }
+    
+    // Fetch doctors
+    const fetchDoctors = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/consultation_booking/");
+        if (response.ok) {
+          const result = await response.json();
+          if (result.success) {
+            setDoctors(result.data);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch doctors", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDoctors();
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        {onBack && (
-          <button 
-            onClick={onBack}
-            className="mb-6 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg font-medium transition"
-          >
-            ← Back
-          </button>
-        )}
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
-          <div className="grid md:grid-cols-2 gap-0">
-            {/* Left Side - Doctor Image Placeholder */}
-            <div className="relative bg-gradient-to-br from-blue-400 via-blue-500 to-cyan-400 p-8 md:p-12 flex flex-col justify-between min-h-[400px] md:min-h-[700px]">
-              {/* Logo */}
-              <div className="flex items-center gap-2 text-white">
-                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                  <span className="text-blue-500 font-bold text-xl">+</span>
-                </div>
-                <span className="text-2xl font-bold">Medic</span>
-              </div>
-
-              {/* Doctor Image Placeholder - ADD YOUR IMAGE HERE */}
-              <div className="flex-1 flex items-center justify-center">
-                <div className="w-full h-full max-w-md max-h-[500px] bg-white/10 backdrop-blur-sm rounded-2xl border-2 border-dashed border-white/30 flex items-center justify-center">
-                  <div className="text-center text-white/70">
-                    <User className="w-24 h-24 mx-auto mb-4" />
-                    <p className="text-lg font-medium">Add Doctor Image Here</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Stats */}
-              <div className="space-y-3">
-                <div className="bg-white/20 backdrop-blur-md rounded-xl px-4 py-3 flex items-center gap-3">
-                  <div className="bg-white/30 rounded-lg p-2">
-                    <CheckCircle className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-white font-medium">5.7 Million doses injected</span>
-                </div>
-                <div className="bg-white/20 backdrop-blur-md rounded-xl px-4 py-3 flex items-center gap-3">
-                  <div className="bg-green-400/80 rounded-lg p-2">
-                    <CheckCircle className="w-5 h-5 text-white" />
-                  </div>
-                  <span className="text-white font-medium">98% recovery rate</span>
-                </div>
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute top-20 right-10 text-blue-300 opacity-50">
-                <svg width="30" height="30" viewBox="0 0 30 30">
-                  <circle cx="15" cy="15" r="3" fill="currentColor"/>
-                  <circle cx="15" cy="15" r="8" fill="none" stroke="currentColor" strokeWidth="1"/>
-                </svg>
-              </div>
-              <div className="absolute bottom-32 left-10 text-cyan-300 opacity-50">
-                <svg width="25" height="25" viewBox="0 0 25 25">
-                  <circle cx="12.5" cy="12.5" r="2" fill="currentColor"/>
-                </svg>
-              </div>
-            </div>
-
-            {/* Right Side - Booking Form */}
-            <div className="p-8 md:p-12">
-              <div className="mb-8">
-                <div className="text-blue-500 text-3xl mb-4">✦</div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
-                  Book your appointment
-                </h1>
-                <p className="text-gray-600">
-                  Schedule a consultation with our expert doctors
-                </p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Booking For */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-3">
-                    I am booking for
-                  </label>
-                  <div className="flex gap-4">
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="bookingFor"
-                        value="myself"
-                        checked={formData.bookingFor === 'myself'}
-                        onChange={handleChange}
-                        className="w-4 h-4 text-blue-600"
-                      />
-                      <span className="text-gray-700">Myself</span>
-                    </label>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <input
-                        type="radio"
-                        name="bookingFor"
-                        value="other"
-                        checked={formData.bookingFor === 'other'}
-                        onChange={handleChange}
-                        className="w-4 h-4 text-blue-600"
-                      />
-                      <span className="text-gray-700">Other people</span>
-                    </label>
-                  </div>
-                </div>
-
-                {/* Full Name */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Patient's Full Name
-                  </label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    placeholder="Full name"
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                    required
-                  />
-                </div>
-
-                {/* Mobile Number */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Mobile Number
-                  </label>
-                  <p className="text-sm text-gray-500 mb-2">
-                    Notifications for appointment and reminders will be sent to this number.
-                  </p>
-                  <div className="flex gap-2">
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="Phone number"
-                      className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                      required
-                    />
-                    <button
-                      type="button"
-                      className="px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition"
-                    >
-                      Verify
-                    </button>
-                  </div>
-                </div>
-
-                {/* Patient ID */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Patient ID Number
-                  </label>
-                  <div className="grid grid-cols-2 gap-3">
-                    <select
-                      name="idType"
-                      value={formData.idType}
-                      onChange={handleChange}
-                      className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                    >
-                      <option value="national">National ID</option>
-                      <option value="passport">Passport</option>
-                      <option value="driver">Driver License</option>
-                    </select>
-                    <input
-                      type="text"
-                      name="idNumber"
-                      value={formData.idNumber}
-                      onChange={handleChange}
-                      placeholder="ID number"
-                      className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Appointment Date & Time */}
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-gray-700 font-medium mb-2">
-                      <Calendar className="inline w-4 h-4 mr-1" />
-                      Date
-                    </label>
-                    <input
-                      type="date"
-                      name="appointmentDate"
-                      value={formData.appointmentDate}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-gray-700 font-medium mb-2">
-                      <Clock className="inline w-4 h-4 mr-1" />
-                      Time
-                    </label>
-                    <input
-                      type="time"
-                      name="appointmentTime"
-                      value={formData.appointmentTime}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
-                      required
-                    />
-                  </div>
-                </div>
-
-                {/* Reason for Visit */}
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Reason for Visit
-                  </label>
-                  <textarea
-                    name="reason"
-                    value={formData.reason}
-                    onChange={handleChange}
-                    placeholder="Brief description of your concern"
-                    rows="3"
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition resize-none"
-                  />
-                </div>
-
-                {/* Submit Button */}
+    <div className="h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-blue-50 flex items-center justify-center p-6 gap-6">
+      {/* Fixed Floating Circular Sidebar */}
+      <div className="flex-shrink-0 flex items-center">
+        <div className="bg-gradient-to-b from-teal-400 via-teal-500 to-cyan-400 rounded-full p-3 shadow-2xl w-fit h-fit">
+          <div className="flex flex-col items-center gap-6 py-12 px-2">
+            {sidebarIcons.map((item, index) => {
+              const Icon = item.icon;
+              const isActive = activeIcon === index;
+              const isTopSection = index < 3;
+              
+              return (
                 <button
-                  type="submit"
-                  className="w-full py-4 bg-blue-600 text-white rounded-xl font-semibold text-lg hover:bg-blue-700 transition-all transform hover:scale-[1.02] shadow-lg shadow-blue-200"
+                  key={index}
+                  onClick={() => {
+                    if (index === 0 && onNavigateToMain) onNavigateToMain();
+                    else if (index === 1 && onNavigateToHealth) onNavigateToHealth();
+                    else if (index === 2 && onNavigateToUpload) onNavigateToUpload();
+                    else if (index === 3) setActiveIcon(index);
+                    else if (index === 4 && onNavigateToSchedule) onNavigateToSchedule();
+                    else if (index === 5 && onNavigateToProfile) onNavigateToProfile();
+                  }}
+                  className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
+                    isActive 
+                      ? 'bg-white shadow-lg scale-110' 
+                      : 'hover:bg-white/20'
+                  }`}
                 >
-                  Submit
+                  <Icon 
+                    className={`w-7 h-7 ${
+                      isActive 
+                        ? isTopSection ? 'text-teal-500' : 'text-gray-400'
+                        : 'text-white'
+                    }`} 
+                  />
                 </button>
-
-                {/* Already Registered Link */}
-                <div className="text-center pt-2">
-                  <span className="text-gray-600">Already registered? </span>
-                  <a href="#" className="text-blue-600 font-medium hover:underline">
-                    Check your status
-                  </a>
-                </div>
-              </form>
-            </div>
+              );
+            })}
           </div>
         </div>
+      </div>
+
+      <div className="flex-1 bg-white rounded-3xl shadow-lg p-8 overflow-y-auto h-full">
+      {/* Header Area */}
+      <div className="flex justify-between items-center mb-8">
+        <div className="flex items-center gap-4">
+          {onNavigateToMain && (
+            <button 
+              onClick={onNavigateToMain} 
+              className="p-2 bg-white border border-gray-100 rounded-xl hover:bg-gray-50 transition shadow-sm"
+              title="Go Back"
+            >
+              <span className="text-gray-600 font-bold">←</span>
+            </button>
+          )}
+          <h1 className="text-3xl font-bold text-[#374151]">Welcome, {userName}!</h1>
+        </div>
+        
+        <div className="flex items-center gap-4">
+          <button className="relative p-2.5 bg-white rounded-full shadow-sm border border-gray-100 hover:bg-gray-50 transition">
+            <Bell className="w-5 h-5 text-gray-500" />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+          </button>
+          <img 
+            src="https://i.pravatar.cc/150?img=5" 
+            alt="Profile" 
+            className="w-11 h-11 rounded-full object-cover shadow-sm border border-gray-200" 
+          />
+        </div>
+      </div>
+
+      {/* Hero / Filter Block */}
+      <div className="bg-[#f3f4f6] p-8 rounded-3xl mb-12 shadow-sm relative">
+        <p className="text-gray-600 font-medium mb-8 max-w-xl text-[15px] leading-relaxed">
+          Find the best psychologist for yourself! Our specialists will help you to find the best decisions for solving your problems!
+        </p>
+        
+        <div className="flex flex-wrap md:flex-nowrap items-center bg-white p-2.5 rounded-2xl shadow-md border border-gray-100">
+          <div className="flex-1 px-5 py-2 border-r border-gray-100 min-w-[140px]">
+            <label className="text-[11px] uppercase tracking-wider font-semibold text-gray-400 block mb-1">Type of counseling</label>
+            <div className="relative">
+              <select 
+                className="w-full text-sm font-semibold text-gray-800 appearance-none bg-transparent outline-none cursor-pointer"
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+              >
+                <option value="All">All types</option>
+                {[...new Set(doctors.map(d => d.doctor_type))].map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+          </div>
+          
+          <div className="flex-1 px-5 py-2 border-r border-gray-100 min-w-[140px]">
+            <label className="text-[11px] uppercase tracking-wider font-semibold text-gray-400 block mb-1">City</label>
+            <div className="relative">
+              <select 
+                className="w-full text-sm font-semibold text-gray-800 appearance-none bg-transparent outline-none cursor-pointer"
+                value={filterCity}
+                onChange={(e) => setFilterCity(e.target.value)}
+              >
+                <option value="All">All Cities</option>
+                {[...new Set(doctors.map(d => d.city))].map(city => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+          </div>
+          
+          <div className="flex-1 px-5 py-2 border-r border-gray-100 min-w-[140px]">
+            <label className="text-[11px] uppercase tracking-wider font-semibold text-gray-400 block mb-1">Experience</label>
+            <div className="relative">
+              <select 
+                className="w-full text-sm font-semibold text-gray-800 appearance-none bg-transparent outline-none cursor-pointer"
+                value={filterExperience}
+                onChange={(e) => setFilterExperience(e.target.value)}
+              >
+                <option value="All">Any Experience</option>
+                <option value="0-5">0 - 5 Years</option>
+                <option value="5-10">5 - 10 Years</option>
+                <option value="10+">10+ Years</option>
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+          </div>
+          
+          <div className="flex-1 px-5 py-2 min-w-[140px]">
+            <label className="text-[11px] uppercase tracking-wider font-semibold text-gray-400 block mb-1">Mode</label>
+            <div className="relative">
+              <select 
+                className="w-full text-sm font-semibold text-gray-800 appearance-none bg-transparent outline-none cursor-pointer"
+                value={filterMode}
+                onChange={(e) => setFilterMode(e.target.value)}
+              >
+                <option value="All">Any Mode</option>
+                <option value="Online">Online</option>
+                <option value="Offline">Offline</option>
+              </select>
+              <ChevronDown className="w-4 h-4 text-gray-400 absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none" />
+            </div>
+          </div>
+          
+          {/* Decorative Search Button (Filtering is real-time above) */}
+          <button className="bg-[#e0e7ff] hover:bg-[#c7d2fe] transition p-4 rounded-xl ml-2 flex-shrink-0">
+            <Search className="w-5 h-5 text-indigo-600" />
+          </button>
+        </div>
+      </div>
+
+      {/* Filter Application Logic */}
+      {(() => {
+        const filteredDoctors = doctors.filter(doc => {
+          if (filterType !== 'All' && doc.doctor_type !== filterType) return false;
+          if (filterCity !== 'All' && doc.city !== filterCity) return false;
+          
+          if (filterExperience !== 'All') {
+            if (filterExperience === '0-5' && doc.experience_years > 5) return false;
+            if (filterExperience === '5-10' && (doc.experience_years <= 5 || doc.experience_years > 10)) return false;
+            if (filterExperience === '10+' && doc.experience_years <= 10) return false;
+          }
+          
+          if (filterMode !== 'All' && doc.mode !== filterMode && doc.mode !== 'Both') return false;
+          
+          return true;
+        });
+        
+        return (
+          <>
+            {/* Best For You Header */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <h2 className="text-[22px] font-bold text-[#374151]">Best for you</h2>
+                <span className="bg-[#e5e7eb] text-gray-600 text-xs font-bold px-2.5 py-1 rounded-full">{filteredDoctors.length}</span>
+              </div>
+              <button className="flex items-center gap-1.5 text-sm font-bold text-gray-600 bg-[#e5e7eb] px-5 py-2 rounded-full hover:bg-gray-300 transition">
+                See all
+                <span className="text-lg leading-none mb-0.5">›</span>
+              </button>
+            </div>
+
+            {/* Doctor Cards Grid */}
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <Loader2 className="w-8 h-8 text-teal-500 animate-spin" />
+              </div>
+            ) : filteredDoctors.length === 0 ? (
+              <div className="flex justify-center items-center py-12">
+                <p className="text-gray-500 font-medium">No doctors found matching your criteria.</p>
+              </div>
+            ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredDoctors.map((doc) => (
+          <div key={doc.id} className="bg-white rounded-[2rem] p-7 shadow-sm border border-gray-100 flex flex-col h-full hover:shadow-md transition duration-300">
+            {/* Header Info */}
+            <div className="flex items-start gap-4 mb-5">
+              <div className="pt-1">
+                <h3 className="font-bold text-[17px] text-[#1f2937] leading-tight">{doc.doctor_name}</h3>
+                <p className="text-xs font-medium text-gray-400 mt-1.5">{doc.specialization}</p>
+              </div>
+            </div>
+            
+            {/* Stats row */}
+            <div className="flex items-center gap-4 mb-5">
+              <div className={`flex items-center gap-1 ${doc.rating >= 4.5 ? 'bg-green-500' : 'bg-yellow-500'} text-white px-2 py-1 rounded-md text-xs font-bold`}>
+                <Star className="w-3.5 h-3.5 fill-current" />
+                {Number(doc.rating).toFixed(1)}
+              </div>
+              <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500">
+                <MapPin className="w-3.5 h-3.5" />
+                {doc.city}, {doc.country}
+              </div>
+            </div>
+            
+            {/* Experience */}
+            <div className="mb-6 space-y-1">
+              <p className="text-xs font-medium text-gray-500">{doc.experience_years} yrs of exp.</p>
+              <p className="text-xs font-medium text-gray-500">Mode: {doc.mode}</p>
+            </div>
+            
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              <span className="bg-[#f3f4f6] text-gray-500 font-medium text-[11px] px-3.5 py-1.5 rounded-full whitespace-nowrap">
+                {doc.doctor_type}
+              </span>
+            </div>
+            
+            {/* Footer Info & Button */}
+            <div className="mt-auto flex items-end justify-between pt-4 border-t border-gray-50">
+              <div className="pr-4">
+                <p className="font-bold text-[17px] text-[#1f2937]">${doc.consultation_fee}<span className="text-[13px] text-gray-400 font-medium">/h</span></p>
+                <p className="text-[11px] font-medium text-gray-400 mt-1">{doc.mode}</p>
+              </div>
+              <button className="bg-[#3b82f6] hover:bg-blue-600 text-white text-sm font-semibold px-6 py-3 rounded-full transition shadow-sm whitespace-nowrap">
+                Book Consultation
+              </button>
+            </div>
+          </div>
+              ))}
+            </div>
+            )}
+          </>
+        );
+      })()}
+
       </div>
     </div>
   );

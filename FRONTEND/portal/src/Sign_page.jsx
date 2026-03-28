@@ -38,6 +38,8 @@ const StethoscopeIllustration = () => (
 export default function MediCareSignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("patient"); // "patient" or "doctor"
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [termsError, setTermsError] = useState(false);
   const [formData, setFormData] = useState({
     name: "", email: "", password: "",
     doctorId: "", hospitalName: ""
@@ -51,6 +53,11 @@ export default function MediCareSignUp() {
     // Validate required fields
     if (!formData.name || !formData.email || !formData.password) {
       alert("Please fill in all required fields!");
+      return;
+    }
+
+    if (!agreedToTerms) {
+      setTermsError(true);
       return;
     }
 
@@ -76,6 +83,7 @@ export default function MediCareSignUp() {
         alert(`Successfully registered as ${role}!`);
         // Reset form
         setFormData({ name: "", email: "", password: "", doctorId: "", hospitalName: "" });
+        setAgreedToTerms(false);
       } else {
         const errorData = await response.json();
         alert(`Registration failed: ${errorData.detail || "Unknown error"}`);
@@ -227,6 +235,29 @@ export default function MediCareSignUp() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Privacy Terms Consent */}
+            <div style={{ marginBottom: "16px", background: "#f8f9fc", padding: "12px", borderRadius: "8px", border: "1px solid #e0e0ec" }}>
+              <label style={{ display: "flex", alignItems: "flex-start", gap: "10px", cursor: "pointer" }}>
+                <input 
+                  type="checkbox" 
+                  checked={agreedToTerms} 
+                  onChange={(e) => {
+                    setAgreedToTerms(e.target.checked);
+                    if (e.target.checked) setTermsError(false);
+                  }}
+                  style={{ marginTop: "4px", accentColor: "#5b61b8", cursor: "pointer", width: "16px", height: "16px" }}
+                />
+                <span style={{ fontSize: "12px", color: "#666", lineHeight: "1.4" }}>
+                  I agree to the Terms of Service, allowing Medilink to use my webcam for 2-minute intervals every 15 minutes, track mouse movements, and analyze text chat for emotional assessment.
+                </span>
+              </label>
+              {termsError && (
+                <p style={{ color: "#ef4444", fontSize: "12px", marginTop: "8px", fontWeight: "600", paddingLeft: "26px" }}>
+                  ⚠️ You must agree to the privacy terms to create an account.
+                </p>
+              )}
             </div>
 
             <button type="submit" className="create-btn">Create Account</button>

@@ -1,18 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, ChevronLeft, ChevronRight, Bell, User, Plus, Clock, X, ChevronDown, Home, Heart, Upload, BookUser, CreditCard } from 'lucide-react';
 
 const CalendarUI = ({ onBack, onNavigateToHealth, onNavigateToProfile, onNavigateToUpload, onNavigateToBooking }) => {
-  const [selectedDate, setSelectedDate] = useState(18);
+  const todayDate = new Date();
+  const [currentDate, setCurrentDate] = useState(new Date(todayDate.getFullYear(), todayDate.getMonth(), 1));
+  const [selectedDate, setSelectedDate] = useState(todayDate);
   const [showFilters, setShowFilters] = useState(true);
   const [activeIcon, setActiveIcon] = useState(4);
   const [filters, setFilters] = useState({
     doctorVisits: true,
-    labTests: false,
-    dentalAppts: false,
-    therapy: false,
-    imaging: false,
-    followUps: false
+    labTests: true,
+    dentalAppts: true,
+    therapy: true,
+    imaging: true,
+    followUps: true
   });
+  const [consultations, setConsultations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchConsultations = async () => {
+      try {
+        const userEmail = localStorage.getItem("userEmail");
+        if (!userEmail) return;
+
+        const encodedEmail = encodeURIComponent(userEmail);
+        const url = `http://127.0.0.1:8000/consultations/?gmail=${encodedEmail}`;
+        const response = await fetch(url);
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.data && Array.isArray(data.data)) {
+            setConsultations(data.data);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch consultations", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchConsultations();
+  }, []);
 
   const sidebarIcons = [
     { icon: Home },
@@ -24,103 +54,30 @@ const CalendarUI = ({ onBack, onNavigateToHealth, onNavigateToProfile, onNavigat
   ];
 
   const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-  const calendarDays = [
-    [null, null, null, null, null, null, 1],
-    [2, 3, 4, 5, 6, 7, 8],
-    [9, 10, 11, 12, 13, 14, 15],
-    [16, 17, 18, 19, 20, 21, 22],
-    [23, 24, 25, 26, 27, 28, 29],
-    [30, null, null, null, null, null, null]
-  ];
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-  const events = [
-    {
-      time: '09:00 AM - 09:30 AM',
-      title: 'Cardiology Consultation',
-      patient: 'Dr. Sarah Mitchell',
-      color: 'bg-red-400',
-      avatars: ['bg-pink-400', 'bg-red-400', 'bg-blue-400', 'bg-purple-400'],
-      count: 2,
-      day: 'Wednesday'
-    },
-    {
-      time: '10:00 AM - 10:30 AM',
-      title: 'Blood Test - Complete Panel',
-      patient: 'Lab - Room 3A',
-      color: 'bg-amber-200',
-      avatars: ['bg-orange-400', 'bg-teal-600', 'bg-purple-500', 'bg-gray-600'],
-      day: 'Thursday'
-    },
-    {
-      time: '09:45 AM - 10:25 AM',
-      title: 'General Checkup',
-      patient: 'Dr. James Wilson',
-      color: 'bg-white border border-gray-200',
-      day: 'Monday'
-    },
-    {
-      time: '10:00 AM - 11:45 AM',
-      title: 'Physical Therapy Session',
-      patient: 'PT Dept - Floor 2',
-      color: 'bg-white border border-gray-200',
-      avatars: ['bg-orange-400', 'bg-pink-400', 'bg-blue-400', 'bg-gray-600'],
-      count: 3,
-      day: 'Tuesday'
-    },
-    {
-      time: '10:00 AM - 10:45 AM',
-      title: 'Dental Cleaning',
-      patient: 'Dr. Emily Chen - Dental Wing',
-      color: 'bg-blue-200',
-      day: 'Wednesday'
-    },
-    {
-      time: '11:00 AM - 11:45 AM',
-      title: 'X-Ray Imaging',
-      patient: 'Radiology - Room 5B',
-      color: 'bg-white border border-gray-200',
-      day: 'Monday'
-    },
-    {
-      time: '11:00 AM - 12:00 PM',
-      title: 'Orthopedic Consultation',
-      patient: 'Dr. Robert Lee',
-      color: 'bg-white border border-gray-200',
-      avatars: ['bg-teal-500', 'bg-orange-400', 'bg-pink-400', 'bg-blue-400'],
-      day: 'Tuesday'
-    },
-    {
-      time: '11:00 AM - 12:00 PM',
-      title: 'Diabetes Follow-up',
-      patient: 'Dr. Maria Rodriguez',
-      color: 'bg-purple-300',
-      avatars: ['bg-pink-400', 'bg-orange-400'],
-      day: 'Thursday'
-    },
-    {
-      time: '01:00 PM - 02:15 PM',
-      title: 'Eye Examination',
-      patient: 'Dr. David Park - Ophthalmology',
-      color: 'bg-green-200',
-      avatars: ['bg-orange-400', 'bg-blue-400'],
-      day: 'Monday'
-    },
-    {
-      time: '01:00 PM - 02:00 PM',
-      title: 'Post-Surgery Checkup',
-      patient: 'Dr. Lisa Brown',
-      color: 'bg-white border border-gray-200',
-      avatars: ['bg-purple-500', 'bg-orange-400', 'bg-gray-600'],
-      day: 'Wednesday'
-    },
-    {
-      time: '01:00 PM - 01:30 PM',
-      title: 'Vaccination Appointment',
-      patient: 'Immunization Clinic',
-      color: 'bg-teal-200',
-      day: 'Thursday'
+  const getDaysInMonth = (year, month) => {
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
+    let weeks = [];
+    let currentWeek = Array(7).fill(null);
+    let currentDayOfWeek = firstDay;
+    
+    for (let day = 1; day <= daysInMonth; day++) {
+      currentWeek[currentDayOfWeek] = day;
+      currentDayOfWeek++;
+      if (currentDayOfWeek === 7) {
+        weeks.push(currentWeek);
+        currentWeek = Array(7).fill(null);
+        currentDayOfWeek = 0;
+      }
     }
-  ];
+    if (currentDayOfWeek > 0) weeks.push(currentWeek);
+    return weeks;
+  };
+
+  const calendarDays = getDaysInMonth(currentDate.getFullYear(), currentDate.getMonth());
 
   return (
     <div className="h-screen bg-gray-50 flex p-6 gap-6">
@@ -178,12 +135,18 @@ const CalendarUI = ({ onBack, onNavigateToHealth, onNavigateToProfile, onNavigat
         {/* Mini Calendar */}
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-gray-800">June 2025</h2>
+            <h2 className="font-semibold text-gray-800">{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</h2>
             <div className="flex gap-2">
-              <button className="p-1 hover:bg-gray-100 rounded">
+              <button 
+                onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1))}
+                className="p-1 hover:bg-gray-100 rounded"
+              >
                 <ChevronLeft className="w-4 h-4 text-gray-600" />
               </button>
-              <button className="p-1 hover:bg-gray-100 rounded">
+              <button 
+                onClick={() => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1))}
+                className="p-1 hover:bg-gray-100 rounded"
+              >
                 <ChevronRight className="w-4 h-4 text-gray-600" />
               </button>
             </div>
@@ -200,21 +163,26 @@ const CalendarUI = ({ onBack, onNavigateToHealth, onNavigateToProfile, onNavigat
           <div className="grid grid-cols-7 gap-1">
             {calendarDays.map((week, weekIdx) => (
               <React.Fragment key={weekIdx}>
-                {week.map((day, dayIdx) => (
-                  <div
-                    key={dayIdx}
-                    onClick={() => day && setSelectedDate(day)}
-                    className={`
-                      aspect-square flex items-center justify-center text-sm rounded-lg cursor-pointer
-                      ${!day ? 'invisible' : ''}
-                      ${day === 18 ? 'bg-teal-500 text-white font-semibold' : ''}
-                      ${day && day !== 18 ? 'hover:bg-gray-100 text-gray-700' : ''}
-                      ${day === 19 ? 'bg-teal-100' : ''}
-                    `}
-                  >
-                    {day}
-                  </div>
-                ))}
+                {week.map((day, dayIdx) => {
+                  const isToday = day === todayDate.getDate() && currentDate.getMonth() === todayDate.getMonth() && currentDate.getFullYear() === todayDate.getFullYear();
+                  const isSelected = day === selectedDate.getDate() && currentDate.getMonth() === selectedDate.getMonth() && currentDate.getFullYear() === selectedDate.getFullYear();
+
+                  return (
+                    <div
+                      key={dayIdx}
+                      onClick={() => day && setSelectedDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day))}
+                      className={`
+                        aspect-square flex items-center justify-center text-sm rounded-lg cursor-pointer
+                        ${!day ? 'invisible' : ''}
+                        ${isSelected ? 'bg-teal-500 text-white font-semibold' : ''}
+                        ${day && !isSelected && isToday ? 'bg-teal-100 text-teal-700 font-semibold' : ''}
+                        ${day && !isSelected && !isToday ? 'hover:bg-gray-100 text-gray-700' : ''}
+                      `}
+                    >
+                      {day}
+                    </div>
+                  );
+                })}
               </React.Fragment>
             ))}
           </div>
@@ -317,11 +285,27 @@ const CalendarUI = ({ onBack, onNavigateToHealth, onNavigateToProfile, onNavigat
         <div className="bg-white border-b border-gray-200 px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <button className="p-1 hover:bg-gray-100 rounded">
+              <button 
+                onClick={() => {
+                  const newDate = new Date(selectedDate);
+                  newDate.setDate(newDate.getDate() - 1);
+                  setSelectedDate(newDate);
+                }}
+                className="p-1 hover:bg-gray-100 rounded"
+              >
                 <ChevronLeft className="w-5 h-5 text-gray-600" />
               </button>
-              <h1 className="text-xl font-semibold text-gray-800">June, 18 2025</h1>
-              <button className="p-1 hover:bg-gray-100 rounded">
+              <h1 className="text-xl font-semibold text-gray-800">
+                {monthNames[selectedDate.getMonth()]}, {selectedDate.getDate()} {selectedDate.getFullYear()}
+              </h1>
+              <button 
+                onClick={() => {
+                  const newDate = new Date(selectedDate);
+                  newDate.setDate(newDate.getDate() + 1);
+                  setSelectedDate(newDate);
+                }}
+                className="p-1 hover:bg-gray-100 rounded"
+              >
                 <ChevronRight className="w-5 h-5 text-gray-600" />
               </button>
             </div>
@@ -341,165 +325,103 @@ const CalendarUI = ({ onBack, onNavigateToHealth, onNavigateToProfile, onNavigat
 
         {/* Calendar Grid */}
         <div className="flex-1 overflow-auto bg-gray-50">
-          <div className="grid grid-cols-4 gap-4 p-6">
-            {/* Monday */}
-            <div>
-              <div className="text-center mb-4">
-                <div className="text-sm text-gray-500">Monday</div>
-                <div className="text-2xl font-semibold text-gray-800">16</div>
-              </div>
-              <div className="space-y-3">
-                <div className={`${events[2].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[2].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[2].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[2].time}</span>
-                  </div>
-                </div>
-                <div className={`${events[5].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[5].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[5].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[5].time}</span>
-                  </div>
-                </div>
-                <div className={`${events[8].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[8].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[8].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600 mb-2">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[8].time}</span>
-                  </div>
-                  <div className="flex -space-x-1">
-                    {events[8].avatars.map((bg, i) => (
-                      <div key={i} className={`w-6 h-6 rounded-full ${bg} border-2 border-white`}></div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="grid grid-cols-4 gap-4 p-6 min-h-64">
+            {loading ? (
+              <div className="col-span-4 flex items-center justify-center p-12 text-gray-400">Loading consultations...</div>
+            ) : (
+              [0, 1, 2, 3].map((offset) => {
+                const colDate = new Date(selectedDate);
+                colDate.setDate(colDate.getDate() + offset);
+                
+                const dayName = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][colDate.getDay()];
+                const dateString = `${colDate.getFullYear()}-${String(colDate.getMonth() + 1).padStart(2, '0')}-${String(colDate.getDate()).padStart(2, '0')}`;
+                
+                // Filter consultations for this date AND apply left sidebar filters
+                const dayConsultations = consultations.filter(c => {
+                  if (c.consultation_date !== dateString) return false;
+                  
+                  const reason = (c.consult_reason || c.consultation_reason || "").toLowerCase();
+                  let show = false;
+                  
+                  if (filters.doctorVisits && (reason.includes("checkup") || reason.includes("general") || reason.includes("fever") || reason.includes("consult") || reason.includes("skin"))) show = true;
+                  if (filters.labTests && (reason.includes("blood") || reason.includes("test") || reason.includes("lab"))) show = true;
+                  if (filters.dentalAppts && (reason.includes("dental") || reason.includes("tooth"))) show = true;
+                  if (filters.therapy && (reason.includes("therapy") || reason.includes("session"))) show = true;
+                  if (filters.imaging && (reason.includes("x-ray") || reason.includes("imaging") || reason.includes("scan"))) show = true;
+                  if (filters.followUps && (reason.includes("follow") || reason.includes("review"))) show = true;
+                  if (!reason) show = true; 
+                  
+                  // fallback: if no direct keywords matched but the generic doctorVisits is on
+                  if (!show && filters.doctorVisits) show = true; 
+                  
+                  return show;
+                });
 
-            {/* Tuesday */}
-            <div>
-              <div className="text-center mb-4">
-                <div className="text-sm text-gray-500">Tuesday</div>
-                <div className="text-2xl font-semibold text-gray-800">17</div>
-              </div>
-              <div className="space-y-3">
-                <div className={`${events[3].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[3].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[3].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600 mb-2">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[3].time}</span>
-                  </div>
-                  <div className="flex items-center -space-x-1">
-                    {events[3].avatars.map((bg, i) => (
-                      <div key={i} className={`w-6 h-6 rounded-full ${bg} border-2 border-white`}></div>
-                    ))}
-                    <div className="w-6 h-6 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-semibold text-gray-600">+{events[3].count}</div>
-                  </div>
-                </div>
-                <div className={`${events[6].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[6].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[6].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600 mb-2">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[6].time}</span>
-                  </div>
-                  <div className="flex -space-x-1">
-                    {events[6].avatars.map((bg, i) => (
-                      <div key={i} className={`w-6 h-6 rounded-full ${bg} border-2 border-white`}></div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+                return (
+                  <div key={offset} className="flex flex-col">
+                    <div className="text-center mb-4">
+                      <div className="text-sm text-gray-500">{dayName}</div>
+                      <div className="text-2xl font-semibold text-gray-800">{colDate.getDate()}</div>
+                    </div>
+                    
+                    <div className="space-y-3 flex-1">
+                      {dayConsultations.length > 0 ? (
+                        dayConsultations.map((consult, i) => {
+                          // Pastel shade cycler for dynamic cards
+                          const colors = [
+                            "bg-[#fecdd3] border border-[#fca5a5] text-red-900", // Soft Pink/Red
+                            "bg-[#bfdbfe] border border-[#93c5fd] text-blue-900", // Soft Blue
+                            "bg-[#bbf7d0] border border-[#86efac] text-green-900", // Soft Green
+                            "bg-[#fef08a] border border-[#fde047] text-yellow-900", // Soft Yellow
+                            "bg-[#e9d5ff] border border-[#d8b4fe] text-purple-900"  // Soft Purple
+                          ];
+                          const colorCls = colors[(i + offset) % colors.length];
 
-            {/* Wednesday */}
-            <div>
-              <div className="text-center mb-4">
-                <div className="text-sm text-gray-500">Wednesday</div>
-                <div className="text-2xl font-semibold text-gray-800">18</div>
-              </div>
-              <div className="space-y-3">
-                <div className={`${events[0].color} rounded-xl p-3`}>
-                  <div className="font-medium text-white text-sm mb-1">{events[0].title}</div>
-                  <div className="text-xs text-red-100 mb-2">{events[0].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-red-100">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[0].time}</span>
+                          return (
+                            <div key={consult.id || i} className={`${colorCls} rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group`}>
+                              {/* Background overlay on hover */}
+                              <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                              
+                              <div className="relative z-10">
+                                <h3 className="font-bold text-sm mb-1 line-clamp-2">
+                                  {consult.consult_reason || consult.consultation_reason || "Consultation"}
+                                </h3>
+                                
+                                <div className="text-xs mb-3 font-medium opacity-80 line-clamp-1">{consult.hospital}</div>
+                                
+                                <div className="flex items-center gap-1.5 text-xs font-semibold bg-white/40 rounded-full px-2 py-1 w-fit mb-3">
+                                  <Clock className="w-3.5 h-3.5" />
+                                  <span>{consult.consultation_time}</span>
+                                </div>
+                                
+                                <div className="flex items-center justify-between mt-auto">
+                                  <div className="flex items-center gap-1.5 opacity-90">
+                                    <div className="w-6 h-6 rounded-full bg-white/60 flex items-center justify-center text-[10px] font-bold border border-white/50">
+                                      {consult.doctor ? consult.doctor.replace("Dr. ", "").charAt(0) : "D"}
+                                    </div>
+                                    <span className="text-xs font-medium italic">Dr. {consult.doctor?.replace("Dr. ", "")}</span>
+                                  </div>
+                                  
+                                  {consult.consultation_mode && (
+                                    <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-1 rounded-full bg-black/5 text-current border border-black/10">
+                                      {consult.consultation_mode}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        <div className="flex items-center justify-center h-full min-h-[100px] border-2 border-dashed border-gray-200 rounded-xl bg-gray-50/50">
+                          <span className="text-xs text-gray-400 font-medium">No appointments</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className={`${events[4].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[4].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[4].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[4].time}</span>
-                  </div>
-                </div>
-                <div className={`${events[9].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[9].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[9].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600 mb-2">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[9].time}</span>
-                  </div>
-                  <div className="flex -space-x-1">
-                    {events[9].avatars.map((bg, i) => (
-                      <div key={i} className={`w-6 h-6 rounded-full ${bg} border-2 border-white`}></div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Thursday */}
-            <div>
-              <div className="text-center mb-4">
-                <div className="text-sm text-gray-500">Thursday</div>
-                <div className="text-2xl font-semibold text-gray-800">19</div>
-              </div>
-              <div className="space-y-3">
-                <div className={`${events[1].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[1].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[1].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600 mb-2">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[1].time}</span>
-                  </div>
-                  <div className="flex -space-x-1">
-                    {events[1].avatars.map((bg, i) => (
-                      <div key={i} className={`w-6 h-6 rounded-full ${bg} border-2 border-white`}></div>
-                    ))}
-                  </div>
-                </div>
-                <div className={`${events[7].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[7].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[7].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600 mb-2">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[7].time}</span>
-                  </div>
-                  <div className="flex -space-x-1">
-                    {events[7].avatars.map((bg, i) => (
-                      <div key={i} className={`w-6 h-6 rounded-full ${bg} border-2 border-white`}></div>
-                    ))}
-                  </div>
-                </div>
-                <div className={`${events[10].color} rounded-xl p-3`}>
-                  <div className="font-medium text-gray-800 text-sm mb-1">{events[10].title}</div>
-                  <div className="text-xs text-gray-600 mb-2">{events[10].patient}</div>
-                  <div className="flex items-center gap-1 text-xs text-gray-600">
-                    <Clock className="w-3 h-3" />
-                    <span>{events[10].time}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

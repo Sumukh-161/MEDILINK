@@ -1,0 +1,15 @@
+{
+    "timestamp": "20260328_075448",
+    "email": "santoshtalekattu@gmail.com",
+    "consultation_id": "1",
+    "dominant_emotion": "sadness",
+    "confidence": 99.93,
+    "total_messages_analyzed": 8,
+    "breakdown": {
+        "anger": 1.75,
+        "fear": 37.98,
+        "joy": 0.28,
+        "sadness": 99.93,
+        "surprise": 0.04
+    }
+}

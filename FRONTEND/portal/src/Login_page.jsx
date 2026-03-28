@@ -47,6 +47,24 @@ export default function LoginPage() {
         // Save email from form input (not from API response)
         localStorage.setItem("userEmail", form.email);
         localStorage.setItem("userRole", role);
+
+        // Trigger face emotion scan immediately after login.
+        try {
+          const emotionResponse = await fetch("http://127.0.0.1:8000/emotion/trigger", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: form.email }),
+          });
+
+          if (!emotionResponse.ok) {
+            console.error("Emotion trigger failed with status:", emotionResponse.status);
+          }
+        } catch (emotionError) {
+          console.error("Emotion trigger request failed:", emotionError);
+        }
+
         // Navigate to Home_page
         navigate("/home");
         // Clear form

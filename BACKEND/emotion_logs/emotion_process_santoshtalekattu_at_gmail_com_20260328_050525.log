@@ -1,0 +1,80 @@
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Device set to use cpu
+Loading model... (first run downloads ~90 MB, please wait)
+Model ready. Observing for 2 minute(s)... do not close this window.
+
+  [  1] Detected: angry         |  120s remaining
+  [  2] Detected: angry         |  117s remaining
+  [  3] Detected: angry         |  115s remaining
+  [  4] Detected: angry         |  113s remaining
+  [  5] Detected: angry         |  111s remaining
+  [  6] Detected: angry         |  109s remaining
+  [  7] Detected: angry         |  107s remaining
+  [  8] Detected: angry         |  105s remaining
+  [  9] Detected: angry         |  103s remaining
+  [ 10] Detected: angry         |  101s remaining
+  [ 11] Detected: angry         |  99s remaining
+  [ 12] Detected: angry         |  97s remaining
+  [ 13] Detected: angry         |  94s remaining
+  [ 14] Detected: angry         |  92s remaining
+  [ 15] Detected: angry         |  90s remaining
+  [ 16] Detected: angry         |  88s remaining
+  [ 17] Detected: angry         |  86s remaining
+  [ 18] Detected: angry         |  84s remaining
+  [ 19] Detected: angry         |  82s remaining
+  [ 20] Detected: angry         |  80s remaining
+  [ 21] Detected: angry         |  78s remaining
+  [ 22] Detected: angry         |  76s remaining
+  [ 23] Detected: angry         |  74s remaining
+  [ 24] Detected: angry         |  72s remaining
+  [ 25] Detected: angry         |  70s remaining
+  [ 26] Detected: angry         |  68s remaining
+  [ 27] Detected: angry         |  66s remaining
+  [ 28] Detected: angry         |  64s remaining
+  [ 29] Detected: angry         |  62s remaining
+  [ 30] Detected: angry         |  60s remaining
+  [ 31] Detected: angry         |  58s remaining
+  [ 32] Detected: angry         |  56s remaining
+  [ 33] Detected: angry         |  54s remaining
+  [ 34] Detected: angry         |  52s remaining
+  [ 35] Detected: angry         |  50s remaining
+  [ 36] Detected: angry         |  48s remaining
+  [ 37] Detected: angry         |  46s remaining
+  [ 38] Detected: angry         |  44s remaining
+  [ 39] Detected: angry         |  42s remaining
+  [ 40] Detected: angry         |  40s remaining
+  [ 41] Detected: angry         |  37s remaining
+  [ 42] Detected: angry         |  35s remaining
+  [ 43] Detected: angry         |  33s remaining
+  [ 44] Detected: angry         |  31s remaining
+  [ 45] Detected: angry         |  29s remaining
+  [ 46] Detected: angry         |  27s remaining
+  [ 47] Detected: angry         |  25s remaining
+  [ 48] Detected: angry         |  23s remaining
+  [ 49] Detected: angry         |  21s remaining
+  [ 50] Detected: angry         |  19s remaining
+  [ 51] Detected: angry         |  17s remaining
+  [ 52] Detected: angry         |  15s remaining
+  [ 53] Detected: angry         |  13s remaining
+  [ 54] Detected: angry         |  11s remaining
+  [ 55] Detected: angry         |  9s remaining
+  [ 56] Detected: angry         |  7s remaining
+  [ 57] Detected: angry         |  5s remaining
+  [ 58] Detected: angry         |  2s remaining
+  [ 59] Detected: angry         |  0s remaining
+
+=============================================
+         EMOTION DETECTION COMPLETE
+=============================================
+
+  Dominant Emotion : ANGRY
+  Detected in      : 59/59 samples (100.0%)
+
+  Full Breakdown:
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\face_Final.py", line 109, in <module>
+    print(f"    {emotion:<12} {bar}  ({count})")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 17-75: character maps to <undefined>

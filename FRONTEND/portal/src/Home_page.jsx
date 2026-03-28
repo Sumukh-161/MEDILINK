@@ -31,6 +31,8 @@ import CalendarUI from './schedule.jsx';
 import PatientProfile from './profile.jsx';
 import TextExtractor from './Upload.jsx';
 import AppointmentBooking from './Booking.jsx';
+import ConsultationChat from './ConsultationChat.jsx';
+import { useEmotionScanner } from './hooks/useEmotionScanner.js';
 
 
 const MourUI = () => {
@@ -49,7 +51,24 @@ const MourUI = () => {
   const [reportsLoading, setReportsLoading] = useState(false);
   const [reportsError, setReportsError] = useState(null);
 
-  // Default patient info
+  // Medications Modal State
+  const [showMedsModal, setShowMedsModal] = useState(false);
+  const [medsData, setMedsData] = useState([]);
+  const [medsLoading, setMedsLoading] = useState(false);
+  const [medsError, setMedsError] = useState(null);
+
+  // Consultations Modal State
+  const [showConsultsModal, setShowConsultsModal] = useState(false);
+  const [consultsData, setConsultsData] = useState([]);
+  const [consultsLoading, setConsultsLoading] = useState(false);
+  const [consultsError, setConsultsError] = useState(null);
+  const [chatConsultation, setChatConsultation] = useState(null);
+
+  // Privacy Consent
+  const [cameraConsentGranted, setCameraConsentGranted] = useState(() => {
+    return sessionStorage.getItem('cameraConsentGranted') === 'true';
+  });
+
   const defaultProfileData = {
     sex: "Female",
     age: 19,
@@ -60,6 +79,9 @@ const MourUI = () => {
   };
 
   const [profileData, setProfileData] = useState(defaultProfileData);
+
+  // 🔥 Trigger background emotion scan natively after login, ONLY if consent is given
+  useEmotionScanner(localStorage.getItem("userEmail"), cameraConsentGranted);
 
   const scheduleItems = [
     { id: 1, title: "Hirurgy", doctor: "Ann Curgy", color: "bg-red-100", icon: "🏥" },
@@ -181,6 +203,84 @@ const MourUI = () => {
     }
   };
 
+  const handleMedicationsClick = async () => {
+    setShowMedsModal(true);
+    setMedsLoading(true);
+    setMedsError(null);
+    setMedsData([]);
+
+    try {
+      const userEmail = localStorage.getItem("userEmail");
+      if (!userEmail) {
+        throw new Error("User email not found. Please login again.");
+      }
+
+      const encodedEmail = encodeURIComponent(userEmail);
+      const url = `http://127.0.0.1:8000/medications/?gmail=${encodedEmail}`;
+      console.log('Fetching medications from:', url);
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch medications. Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Medications data:', data);
+
+      if (Array.isArray(data)) {
+        setMedsData(data);
+      } else if (data && Array.isArray(data.data)) {
+        setMedsData(data.data);
+      } else {
+        throw new Error("Invalid response format from server.");
+      }
+    } catch (err) {
+      console.error("Error fetching medications:", err);
+      setMedsError(err.message);
+    } finally {
+      setMedsLoading(false);
+    }
+  };
+
+  const handleConsultationsClick = async () => {
+    setShowConsultsModal(true);
+    setConsultsLoading(true);
+    setConsultsError(null);
+    setConsultsData([]);
+
+    try {
+      const userEmail = localStorage.getItem("userEmail");
+      if (!userEmail) {
+        throw new Error("User email not found. Please login again.");
+      }
+
+      const encodedEmail = encodeURIComponent(userEmail);
+      const url = `http://127.0.0.1:8000/consultations/?gmail=${encodedEmail}`;
+      console.log('Fetching consultations from:', url);
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch consultations. Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Consultations data:', data);
+
+      if (data && data.data && Array.isArray(data.data)) {
+        setConsultsData(data.data);
+      } else {
+        throw new Error("Invalid response format from server.");
+      }
+    } catch (err) {
+      console.error("Error fetching consultations:", err);
+      setConsultsError(err.message);
+    } finally {
+      setConsultsLoading(false);
+    }
+  };
+
   if (error) {
     return (
       <div className="h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-blue-50 flex items-center justify-center">
@@ -250,7 +350,15 @@ const MourUI = () => {
       case 'upload':
         return <TextExtractor onBack={() => setCurrentView("main")} />;
       case 'booking':
-        return <AppointmentBooking onBack={() => setCurrentView("main")} />;
+        return (
+          <AppointmentBooking
+            onNavigateToMain={() => setCurrentView("main")}
+            onNavigateToHealth={() => setCurrentView('health')}
+            onNavigateToUpload={() => setCurrentView('upload')}
+            onNavigateToSchedule={() => setCurrentView('schedule')}
+            onNavigateToProfile={() => setCurrentView('profile')}
+          />
+        );
       default:
         return null;
     }
@@ -407,7 +515,13 @@ const MourUI = () => {
 
             {/* INFO CARDS */}
             <div className="grid grid-cols-3 gap-3 justify-items-start max-w-full">
-              <InfoCard image={tabi} title="Pills schedule" subtitle="5 pills" />
+              <InfoCard
+                image={tabi}
+                title="Pills schedule"
+                subtitle="View your medications"
+                onClick={handleMedicationsClick}
+                clickable={true}
+              />
               <InfoCard
                 image={Reports}
                 title="My reports"
@@ -415,7 +529,13 @@ const MourUI = () => {
                 onClick={handleReportsClick}
                 clickable={true}
               />
-              <InfoCard image={my_consultation1} title="My consultation" subtitle="4 consultations" />
+              <InfoCard
+                image={my_consultation1}
+                title="My consultation"
+                subtitle="View your past consultations"
+                onClick={handleConsultationsClick}
+                clickable={true}
+              />
             </div>
 
             {/* BOTTOM SECTION */}
@@ -587,6 +707,274 @@ const MourUI = () => {
                   <p className="text-sm text-gray-400 mt-1">Check back later or upload a new one.</p>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* MEDICATIONS MODAL */}
+      {showMedsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-3xl shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50">
+              <h2 className="text-xl font-bold text-gray-800">💊 My Medications</h2>
+              <button
+                onClick={() => setShowMedsModal(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full transition"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6">
+              {medsLoading ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <Loader2 className="w-8 h-8 text-teal-500 animate-spin mb-4" />
+                  <p className="text-gray-500 font-medium">Loading your medications...</p>
+                </div>
+              ) : medsError ? (
+                <div className="bg-red-50 text-red-600 p-4 rounded-xl text-center border border-red-100">
+                  <p className="font-medium mb-2">Oops!</p>
+                  <p>{medsError}</p>
+                </div>
+              ) : medsData && medsData.length > 0 ? (
+                <div className="space-y-3">
+                  {medsData.map((med, index) => {
+                    // Cycle card colors like the reference image
+                    const cardStyles = [
+                      { bg: "#fffde7", border: "#f9e84a", tagBg: "#fef08a", tagText: "#854d0e", avatarColors: ["#a855f7", "#22c55e"], daysStyle: "bg-yellow-200 text-yellow-800" },
+                      { bg: "#eff6ff", border: "#bfdbfe", tagBg: "#dbeafe", tagText: "#1e40af", avatarColors: ["#a855f7", "#22c55e"], daysStyle: "bg-blue-200 text-blue-800" },
+                      { bg: "#fff1f2", border: "#fecdd3", tagBg: "#fecdd3", tagText: "#9f1239", avatarColors: ["#22c55e", "#f97316"], daysStyle: "bg-rose-200 text-rose-800" },
+                    ];
+                    const style = cardStyles[index % cardStyles.length];
+
+                    // Status badge color
+                    const statusVal = (med.status ?? "active").toLowerCase();
+                    const statusStyle =
+                      statusVal === "active" ? "bg-green-100 text-green-700" :
+                        statusVal === "completed" ? "bg-gray-100 text-gray-600" :
+                          statusVal === "paused" ? "bg-orange-100 text-orange-700" :
+                            "bg-green-100 text-green-700";
+
+                    // Build avatar initials from timing_in_day
+                    const timings = (med.timing_in_day || med.frequency || "morning-evening").split("-");
+                    const avatar1 = timings[0] ? timings[0][0].toUpperCase() : "M";
+                    const avatar2 = timings[1] ? timings[1][0].toUpperCase() : "";
+
+                    return (
+                      <div
+                        key={med.id ?? index}
+                        style={{ backgroundColor: style.bg, borderColor: style.border }}
+                        className="rounded-2xl p-5 border"
+                      >
+                        {/* Row 1: Name + three-dot */}
+                        <div className="flex justify-between items-start mb-2">
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-bold text-gray-800 text-base">
+                              {med.pill_name ?? med.medicine_name ?? med.name ?? "Medication"}
+                              {med.dosage ? ` ${med.dosage}` : ""}
+                            </h3>
+                            <span className="text-gray-400 text-sm">ⓘ</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {/* Status badge */}
+                            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full capitalize ${statusStyle}`}>
+                              {med.status ?? "Active"}
+                            </span>
+                            <button className="text-gray-400 hover:text-gray-600 text-xl leading-none">⋯</button>
+                          </div>
+                        </div>
+
+                        {/* Row 2: Condition tag */}
+                        {(med.medication_for ?? med.condition ?? med.category ?? med.instructions) && (
+                          <div className="mb-3">
+                            <span
+                              style={{ backgroundColor: style.tagBg, color: style.tagText }}
+                              className="text-xs font-semibold px-3 py-1 rounded-full"
+                            >
+                              {med.medication_for ?? med.condition ?? med.category ?? med.instructions}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Row 3: Avatar circles + days left */}
+                        <div className="flex items-center gap-2">
+                          {/* Avatar stack */}
+                          <div className="flex -space-x-2">
+                            {avatar1 && (
+                              <div
+                                style={{ backgroundColor: style.avatarColors[0] }}
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white z-10"
+                              >
+                                {avatar1}
+                              </div>
+                            )}
+                            {avatar2 && (
+                              <div
+                                style={{ backgroundColor: style.avatarColors[1] }}
+                                className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white"
+                              >
+                                {avatar2}
+                              </div>
+                            )}
+                          </div>
+                          <span className="text-gray-400 font-bold text-sm">+</span>
+
+                          {/* Days left */}
+                          {(med.duration ?? med.days_left) != null && (
+                            <span className={`text-xs font-semibold px-3 py-1 rounded-full ml-1 ${style.daysStyle}`}>
+                              {med.duration ?? med.days_left}
+                            </span>
+                          )}
+
+                          {/* Doctor name (small) */}
+                          {med.doctor_name && (
+                            <span className="ml-auto text-xs text-gray-400 italic">Dr. {med.doctor_name}</span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">💊</div>
+                  <p className="text-gray-500 font-medium text-lg">No medications found.</p>
+                  <p className="text-sm text-gray-400 mt-1">Your prescribed medications will appear here.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CONSULTATIONS MODAL */}
+      {showConsultsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-white rounded-3xl shadow-xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50">
+              <h2 className="text-xl font-bold text-gray-800">📋 My Consultations</h2>
+              <button
+                onClick={() => setShowConsultsModal(false)}
+                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full transition"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-6">
+              {consultsLoading ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <Loader2 className="w-8 h-8 text-teal-500 animate-spin mb-4" />
+                  <p className="text-gray-500 font-medium">Loading your consultations...</p>
+                </div>
+              ) : consultsError ? (
+                <div className="bg-red-50 text-red-600 p-4 rounded-xl text-center border border-red-100">
+                  <p className="font-medium mb-2">Oops!</p>
+                  <p>{consultsError}</p>
+                </div>
+              ) : consultsData && consultsData.length > 0 ? (
+                <div className="space-y-4">
+                  {consultsData.map((consult) => (
+                    <div
+                      key={consult.id}
+                      className="p-5 rounded-2xl border border-gray-100 bg-white hover:bg-teal-50 hover:border-teal-200 hover:shadow-md transition-all"
+                    >
+                      <div className="flex justify-between items-start mb-3">
+                        <h3 className="font-semibold text-lg text-gray-800">🩺 {consult.consult_reason || "Consultation"}</h3>
+                        <span className="text-xs font-medium px-2.5 py-1 bg-gray-100 text-gray-600 rounded-full">
+                          {consult.consultation_date}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-sm">
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <span className="text-blue-500">👨‍⚕️</span>
+                          <span className="font-medium">Doctor:</span> {consult.doctor}
+                        </div>
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <span className="text-teal-500">🕒</span>
+                          <span className="font-medium">Time:</span> {consult.consultation_time}
+                        </div>
+                        <div className="flex items-center gap-2 text-gray-600 col-span-2">
+                          <span className="text-red-500">🏥</span>
+                          <span className="font-medium">Hospital:</span> {consult.hospital}
+                        </div>
+                        {consult.consultation_mode && (
+                          <div className="flex items-center gap-2 text-gray-600 col-span-2 capitalize">
+                            <span className="text-gray-400">🌐</span>
+                            <span className="font-medium">Mode:</span> {consult.consultation_mode}
+                          </div>
+                        )}
+                      </div>
+                      <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end">
+                        <button
+                          onClick={() => setChatConsultation(consult)}
+                          className="px-4 py-2 bg-gradient-to-r from-teal-500 to-cyan-500 text-white text-sm font-medium rounded-xl hover:from-teal-600 hover:to-cyan-600 transition shadow-sm flex items-center gap-2"
+                        >
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                          </svg>
+                          Chat with Doctor
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">🩺</div>
+                  <p className="text-gray-500 font-medium text-lg">No consultations found.</p>
+                  <p className="text-sm text-gray-400 mt-1">Your past consultations will appear here.</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CHAT OVERLAY */}
+      {chatConsultation && (
+        <ConsultationChat
+          consultation={chatConsultation}
+          onClose={() => setChatConsultation(null)}
+          userEmail={localStorage.getItem("userEmail")}
+        />
+      )}
+
+      {/* Camera Consent Interceptor Block */}
+      {!cameraConsentGranted && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm transition-opacity duration-300">
+          <div className="bg-white rounded-[2rem] p-8 max-w-md w-full shadow-2xl relative animate-in zoom-in-95 duration-300">
+            <div className="text-center mb-7 mt-2">
+              <div className="w-16 h-16 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-5 text-3xl shadow-sm border border-blue-100">
+                📷
+              </div>
+              <h2 className="text-[22px] font-bold text-gray-800 mb-2 leading-tight">Camera Access Required</h2>
+              <p className="text-gray-500 text-sm leading-relaxed px-2">
+                To enable Medilink’s real-time emotion tracker and dynamically adjust your dashboard ecosystem, we require permission to temporarily access your webcam and analyze your current mood.
+              </p>
+            </div>
+
+            <div className="bg-blue-50/50 p-4 rounded-2xl border border-blue-100 flex items-center gap-4 mb-8">
+               <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-lg shadow-sm">
+                  🔒
+               </div>
+               <div className="flex-1 text-left">
+                  <h4 className="font-bold text-gray-800 text-[13px]">Your privacy is protected.</h4>
+                  <p className="text-[11px] text-gray-500 font-medium">We do not store or distribute video footage. Processing occurs only iteratively for assessment and resets immediately after.</p>
+               </div>
+            </div>
+
+            <div className="flex gap-3">
+               <button 
+                  onClick={() => {
+                    sessionStorage.setItem('cameraConsentGranted', 'true');
+                    setCameraConsentGranted(true);
+                  }} 
+                  className="w-full px-5 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-sm transition shadow-lg shadow-blue-200/50"
+                >
+                  Grant Camera Permission
+                </button>
             </div>
           </div>
         </div>

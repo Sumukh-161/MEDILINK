@@ -1,0 +1,71 @@
+Using a slow image processor as `use_fast` is unset and a slow processor was saved with this model. `use_fast=True` will be the default behavior in v4.52, even if the model was saved with a slow processor. This will result in minor differences in outputs. You'll still be able to use a slow processor with `use_fast=False`.
+Device set to use cpu
+Loading model... (first run downloads ~90 MB, please wait)
+Model ready. Observing for 2 minute(s)... do not close this window.
+
+  [  1] Detected: sad           |  120s remaining
+  [  2] Detected: sad           |  117s remaining
+  [  3] Detected: sad           |  115s remaining
+  [  4] Detected: sad           |  112s remaining
+  [  5] Detected: sad           |  110s remaining
+  [  6] Detected: sad           |  108s remaining
+  [  7] Detected: sad           |  106s remaining
+  [  8] Detected: sad           |  104s remaining
+  [  9] Detected: sad           |  101s remaining
+  [ 10] Detected: sad           |  99s remaining
+  [ 11] Detected: sad           |  97s remaining
+  [ 12] Detected: sad           |  94s remaining
+  [ 13] Detected: sad           |  92s remaining
+  [ 14] Detected: sad           |  90s remaining
+  [ 15] Detected: sad           |  88s remaining
+  [ 16] Detected: sad           |  85s remaining
+  [ 17] Detected: sad           |  83s remaining
+  [ 18] Detected: sad           |  81s remaining
+  [ 19] Detected: sad           |  78s remaining
+  [ 20] Detected: sad           |  76s remaining
+  [ 21] Detected: sad           |  74s remaining
+  [ 22] Detected: sad           |  71s remaining
+  [ 23] Detected: sad           |  69s remaining
+  [ 24] Detected: sad           |  67s remaining
+  [ 25] Detected: sad           |  65s remaining
+  [ 26] Detected: sad           |  62s remaining
+  [ 27] Detected: sad           |  60s remaining
+  [ 28] Detected: sad           |  58s remaining
+  [ 29] Detected: sad           |  55s remaining
+  [ 30] Detected: sad           |  52s remaining
+  [ 31] Detected: sad           |  50s remaining
+  [ 32] Detected: sad           |  47s remaining
+  [ 33] Detected: sad           |  45s remaining
+  [ 34] Detected: sad           |  42s remaining
+  [ 35] Detected: sad           |  39s remaining
+  [ 36] Detected: sad           |  37s remaining
+  [ 37] Detected: sad           |  34s remaining
+  [ 38] Detected: sad           |  32s remaining
+  [ 39] Detected: sad           |  29s remaining
+  [ 40] Detected: sad           |  27s remaining
+  [ 41] Detected: sad           |  24s remaining
+  [ 42] Detected: sad           |  21s remaining
+  [ 43] Detected: sad           |  18s remaining
+  [ 44] Detected: sad           |  16s remaining
+  [ 45] Detected: sad           |  13s remaining
+  [ 46] Detected: sad           |  10s remaining
+  [ 47] Detected: sad           |  8s remaining
+  [ 48] Detected: sad           |  6s remaining
+  [ 49] Detected: sad           |  3s remaining
+  [ 50] Detected: sad           |  1s remaining
+
+=============================================
+         EMOTION DETECTION COMPLETE
+=============================================
+
+  Dominant Emotion : SAD
+  Detected in      : 50/50 samples (100.0%)
+
+  Full Breakdown:
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\face_Final.py", line 109, in <module>
+    print(f"    {emotion:<12} {bar}  ({count})")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 17-66: character maps to <undefined>

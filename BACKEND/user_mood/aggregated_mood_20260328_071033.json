@@ -1,0 +1,14 @@
+{
+    "timestamp": "20260328_071033",
+    "aggregated_dominant_mood": "angry",
+    "dominant_score_tally": {
+        "angry": 1
+    },
+    "sources_used": [
+        {
+            "source": "emotion_logs",
+            "raw_emotion": "angry",
+            "mapped_mood": "angry"
+        }
+    ]
+}

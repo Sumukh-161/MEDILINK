@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Date, Numeric, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Numeric, Text, Time
 from sqlalchemy.orm import relationship
 from app.database import Base
 
@@ -51,3 +51,31 @@ class Medication(Base):
     timing_in_day = Column(String(100), nullable=True)
     status = Column(String(50), nullable=True)
     medication_for = Column(String(255), nullable=True)
+
+
+class Consultation(Base):
+    __tablename__ = "consultation"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_gmail = Column(String(255), index=True, nullable=False)
+    consult_reason = Column(Text, nullable=True)
+    consultation_date = Column(Date, nullable=True)
+    consultation_time = Column(Time, nullable=True)
+    doctor = Column(String(255), nullable=True)
+    hospital = Column(String(255), nullable=True)
+    consultation_mode = Column(String(20), nullable=True)  # "online" or "offline"
+    consultation_type = Column(String(100), nullable=True)
+
+class ConsultationBooking(Base):
+    __tablename__ = "consultation_booking"
+
+    id = Column(Integer, primary_key=True, index=True)
+    doctor_name = Column(String, nullable=False)
+    specialization = Column(String, nullable=False)
+    doctor_type = Column(String, nullable=False)
+    experience_years = Column(Integer, nullable=False)
+    rating = Column(Numeric, nullable=True)
+    consultation_fee = Column(Integer, nullable=True)
+    mode = Column(String, nullable=True)
+    city = Column(String, nullable=True)
+    country = Column(String, nullable=True)

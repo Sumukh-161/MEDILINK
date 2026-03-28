@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* -----------------------------------------
+   Emotion-Aware UI Theming Overrides
+----------------------------------------- */
+
+/* ACTIVE STATE TRANSITIONS */
+body {
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+* {
+  transition: border-color 0.5s ease-in-out, background-color 0.5s ease-in-out;
+}
+
+/* --- HAPPY (Amber/Yellow Colors) --- */
+body[data-theme='happy'] .bg-teal-500 { background-color: #f59e0b !important; } /* amber-500 */
+body[data-theme='happy'] .hover\:bg-teal-600:hover { background-color: #d97706 !important; } /* amber-600 */
+body[data-theme='happy'] .bg-teal-400 { background-color: #fbbf24 !important; } /* amber-400 */
+body[data-theme='happy'] .text-teal-500 { color: #f59e0b !important; }
+body[data-theme='happy'] .text-teal-700 { color: #b45309 !important; } /* amber-700 */
+body[data-theme='happy'] .border-teal-500 { border-color: #f59e0b !important; }
+body[data-theme='happy'] .border-teal-400 { border-color: #fbbf24 !important; }
+body[data-theme='happy'] .border-teal-100 { border-color: #fef3c7 !important; } /* amber-100 */
+
+/* Gradients */
+body[data-theme='happy'] .from-teal-50 { --tw-gradient-from: #fffbeb !important; } /* amber-50 */
+body[data-theme='happy'] .from-teal-400 { --tw-gradient-from: #fbbf24 !important; } 
+body[data-theme='happy'] .via-cyan-50 { --tw-gradient-stops: var(--tw-gradient-from), #fef3c7, var(--tw-gradient-to) !important; }
+body[data-theme='happy'] .to-blue-50 { --tw-gradient-to: #fffbeb !important; }
+body[data-theme='happy'] .to-cyan-400 { --tw-gradient-to: #fbbf24 !important; }
+
+/* --- SAD (Indigo/Slate Colors) --- */
+body[data-theme='sad'] .bg-teal-500 { background-color: #64748b !important; } /* slate-500 */
+body[data-theme='sad'] .hover\:bg-teal-600:hover { background-color: #475569 !important; } /* slate-600 */
+body[data-theme='sad'] .bg-teal-400 { background-color: #94a3b8 !important; } /* slate-400 */
+body[data-theme='sad'] .text-teal-500 { color: #64748b !important; }
+body[data-theme='sad'] .text-teal-700 { color: #334155 !important; } /* slate-700 */
+body[data-theme='sad'] .border-teal-500 { border-color: #64748b !important; }
+body[data-theme='sad'] .border-teal-400 { border-color: #94a3b8 !important; }
+body[data-theme='sad'] .border-teal-100 { border-color: #f1f5f9 !important; } /* slate-100 */
+
+/* Gradients */
+body[data-theme='sad'] .from-teal-50 { --tw-gradient-from: #f8fafc !important; } /* slate-50 */
+body[data-theme='sad'] .from-teal-400 { --tw-gradient-from: #94a3b8 !important; }
+body[data-theme='sad'] .via-cyan-50 { --tw-gradient-stops: var(--tw-gradient-from), #f1f5f9, var(--tw-gradient-to) !important; } /* slate-100 */
+body[data-theme='sad'] .to-blue-50 { --tw-gradient-to: #e2e8f0 !important; } /* slate-200 */
+body[data-theme='sad'] .to-cyan-400 { --tw-gradient-to: #cbd5e1 !important; } /* slate-300 */
+
+
+/* --- ANGRY/STRESSED (Rose/Red Colors) --- */
+body[data-theme='angry'] .bg-teal-500 { background-color: #f43f5e !important; } /* rose-500 */
+body[data-theme='angry'] .hover\:bg-teal-600:hover { background-color: #e11d48 !important; } /* rose-600 */
+body[data-theme='angry'] .bg-teal-400 { background-color: #fb7185 !important; } /* rose-400 */
+body[data-theme='angry'] .text-teal-500 { color: #f43f5e !important; }
+body[data-theme='angry'] .text-teal-700 { color: #be123c !important; } /* rose-700 */
+body[data-theme='angry'] .border-teal-500 { border-color: #f43f5e !important; }
+body[data-theme='angry'] .border-teal-400 { border-color: #fb7185 !important; }
+body[data-theme='angry'] .border-teal-100 { border-color: #ffe4e6 !important; } /* rose-100 */
+
+/* Gradients */
+body[data-theme='angry'] .from-teal-50 { --tw-gradient-from: #fff1f2 !important; } /* rose-50 */
+body[data-theme='angry'] .from-teal-400 { --tw-gradient-from: #fb7185 !important; }
+body[data-theme='angry'] .via-cyan-50 { --tw-gradient-stops: var(--tw-gradient-from), #ffe4e6, var(--tw-gradient-to) !important; } /* rose-100 */
+body[data-theme='angry'] .to-blue-50 { --tw-gradient-to: #fecdd3 !important; } /* rose-200 */
+body[data-theme='angry'] .to-cyan-400 { --tw-gradient-to: #fda4af !important; } /* rose-300 */

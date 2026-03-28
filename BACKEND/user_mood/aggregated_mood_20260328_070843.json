@@ -1,0 +1,25 @@
+{
+    "timestamp": "20260328_070843",
+    "aggregated_dominant_mood": "happy",
+    "dominant_score_tally": {
+        "happy": 2,
+        "angry": 1
+    },
+    "sources_used": [
+        {
+            "source": "mouse_res",
+            "raw_emotion": "Browsing_Normal",
+            "mapped_mood": "happy"
+        },
+        {
+            "source": "chat_res",
+            "raw_emotion": "joy",
+            "mapped_mood": "happy"
+        },
+        {
+            "source": "emotion_logs",
+            "raw_emotion": "angry",
+            "mapped_mood": "angry"
+        }
+    ]
+}

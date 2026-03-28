@@ -1,0 +1,15 @@
+{
+    "timestamp": "20260328_074442",
+    "email": "santoshtalekattu@gmail.com",
+    "dominant_emotion": "neutral",
+    "confidence": 30.51,
+    "total_samples": 59,
+    "breakdown": {
+        "angry": 14,
+        "fear": 9,
+        "neutral": 18,
+        "happy": 7,
+        "sad": 10,
+        "surprise": 1
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "consultation_id": "2",
+    "doctor_name": "Dr. Priya Sharma",
+    "patient_email": "santoshtalekattu@gmail.com",
+    "frontend_timestamp": "2026-03-27T23:22:08.825Z",
+    "saved_at": "20260328_045208",
+    "message_count": 8,
+    "messages": [
+        {
+            "id": 1774653694568,
+            "sender": "patient",
+            "text": "sad",
+            "time": "04:51"
+        },
+        {
+            "id": 1774653699125,
+            "sender": "patient",
+            "text": "deeling bad",
+            "time": "04:51"
+        },
+        {
+            "id": 1774653702891,
+            "sender": "patient",
+            "text": "not good",
+            "time": "04:51"
+        },
+        {
+            "id": 1774653705958,
+            "sender": "patient",
+            "text": "very sad",
+            "time": "04:51"
+        },
+        {
+            "id": 1774653723163,
+            "sender": "patient",
+            "text": "very very sad",
+            "time": "04:52"
+        },
+        {
+            "id": 1774653724389,
+            "sender": "patient",
+            "text": "sad",
+            "time": "04:52"
+        },
+        {
+            "id": 1774653725199,
+            "sender": "patient",
+            "text": "sad",
+            "time": "04:52"
+        },
+        {
+            "id": 1774653726545,
+            "sender": "patient",
+            "text": "sad",
+            "time": "04:52"
+        }
+    ]
+}

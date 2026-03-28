@@ -1,0 +1,11 @@
+{
+    "timestamp": "20260328_084211",
+    "email": "santoshtalekattu@gmail.com",
+    "dominant_emotion": "Browsing_Normal",
+    "confidence": 56.3,
+    "breakdown": {
+        "Browsing_Normal": 56.3,
+        "Rest": 16.61,
+        "Stressed": 27.09
+    }
+}

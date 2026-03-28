@@ -1,0 +1,28 @@
+{
+    "consultation_id": "1",
+    "doctor_name": "Dr. Ramesh",
+    "patient_email": "santoshtalekattu@gmail.com",
+    "frontend_timestamp": "2026-03-28T04:47:58.816Z",
+    "saved_at": "20260328_101758",
+    "message_count": 3,
+    "messages": [
+        {
+            "id": 1774673262376,
+            "sender": "patient",
+            "text": "hello docter",
+            "time": "10:17"
+        },
+        {
+            "id": 1774673271898,
+            "sender": "patient",
+            "text": "after our last session",
+            "time": "10:17"
+        },
+        {
+            "id": 1774673276597,
+            "sender": "patient",
+            "text": "i am feeling better",
+            "time": "10:17"
+        }
+    ]
+}

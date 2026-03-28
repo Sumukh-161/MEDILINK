@@ -1,0 +1,192 @@
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 39, in <module>
+    print("\u2705 Model loaded successfully")
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 0: character maps to <undefined>
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_072727.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_073307.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_073428.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_073527.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_074227.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_074327.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_074946.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_075027.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_075127.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_075211.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_075827.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_075928.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_075946.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_080211.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_080627.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_080727.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_080946.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_081211.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_081427.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_081527.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_081946.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_082211.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_082227.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_082327.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_082946.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_083029.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_083127.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_083211.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_083827.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_083927.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_084027.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_084211.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_093343.json
+Traceback (most recent call last):
+  File "C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\MODELS\mouseF.py", line 1, in <module>
+    import torch
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\__init__.py", line 2804, in <module>
+    from torch import _meta_registrations
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_meta_registrations.py", line 12, in <module>
+    from torch._decomp import (
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_decomp\__init__.py", line 287, in <module>
+    import torch._decomp.decompositions
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_decomp\decompositions.py", line 17, in <module>
+    import torch._prims as prims
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_prims\__init__.py", line 2497, in <module>
+    empty = _make_prim(
+            ^^^^^^^^^^^
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_prims\__init__.py", line 334, in _make_prim
+    prim_def = torch.library.custom_op(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_library\custom_ops.py", line 176, in custom_op
+    return inner(fn)
+           ^^^^^^^^^
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_library\custom_ops.py", line 157, in inner
+    result = CustomOpDef(namespace, opname, schema_str, fn, tags)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_library\custom_ops.py", line 215, in __init__
+    self._register_to_dispatcher(self._tags)
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_library\custom_ops.py", line 640, in _register_to_dispatcher
+    autograd_impl = autograd.make_autograd_impl(self._opoverload, self)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_library\autograd.py", line 100, in make_autograd_impl
+    if any(
+       ^^^^
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_library\autograd.py", line 101, in <genexpr>
+    utils.is_tensorlist_like_type(a.type)
+  File "C:\Users\Santosh\AppData\Local\Programs\Python\Python311\Lib\site-packages\torch\_library\utils.py", line 146, in is_tensorlist_like_type
+    or typ == _C.OptionalType(_C.ListType(_C.OptionalType(_C.TensorType.get())))
+                                                          ^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_094227.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_094327.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_095027.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_095127.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_095210.json
+Model loaded successfully
+Successfully evaluated mouse art and saved to C:\Users\Santosh\Desktop\MEDI_PAT\BACKEND\mouse_res\mouse_res_santoshtalekattu_at_gmail_com_20260328_095445.json

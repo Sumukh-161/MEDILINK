@@ -72,7 +72,7 @@ export default function Landing() {
               <div className="absolute inset-0 bg-gradient-to-br from-[#00bcd4]/40 to-transparent" />
               <div className="absolute bottom-6 left-6 bg-white rounded-2xl px-4 py-2 shadow-lg flex items-center gap-2">
                 <div className="w-8 h-8 bg-[#00bcd4]/20 rounded-full flex items-center justify-center">
-                  <svg width="16" height="16" fill="#00bcd4" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-4H7v-2h4V6h2v4h4v2h-4v4z"/></svg>
+                  <svg width="16" height="16" fill="#00bcd4" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm1 14H11v-4H7v-2h4V6h2v4h4v2h-4v4z" /></svg>
                 </div>
                 <span className="text-sm font-bold text-gray-700">+500 Doctors</span>
               </div>
@@ -85,7 +85,7 @@ export default function Landing() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-[#fffbfb] text-gray-700 rounded-2xl p-5 shadow-lg">
               <div className="flex items-center gap-2 mb-3">
-                <svg width="20" height="20" fill="#00bcd4" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+                <svg width="20" height="20" fill="#00bcd4" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z" /></svg>
                 <span className="font-bold text-sm">Opening Hours</span>
               </div>
               <p className="text-sm opacity-90">Mon–Fri: 8am – 8pm</p>
@@ -95,7 +95,7 @@ export default function Landing() {
             <div className="bg-white rounded-2xl p-5 shadow-lg border border-gray-100">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 bg-[#00bcd4]/10 rounded-lg flex items-center justify-center">
-                  <svg width="16" height="16" fill="#00bcd4" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                  <svg width="16" height="16" fill="#00bcd4" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" /></svg>
                 </div>
                 <span className="font-bold text-sm text-gray-700">Appointment</span>
               </div>
@@ -107,7 +107,7 @@ export default function Landing() {
             <div className="bg-white rounded-2xl p-5 shadow-lg border border-gray-100">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 bg-[#00bcd4]/10 rounded-lg flex items-center justify-center">
-                  <svg width="16" height="16" fill="#00bcd4" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+                  <svg width="16" height="16" fill="#00bcd4" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" /></svg>
                 </div>
                 <span className="font-bold text-sm text-gray-700">Find Doctors</span>
               </div>
@@ -117,7 +117,7 @@ export default function Landing() {
             <div className="bg-white rounded-2xl p-5 shadow-lg border border-gray-100">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 bg-[#00bcd4]/10 rounded-lg flex items-center justify-center">
-                  <svg width="16" height="16" fill="#00bcd4" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+                  <svg width="16" height="16" fill="#00bcd4" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z" /></svg>
                 </div>
                 <span className="font-bold text-sm text-gray-700">Find Locations</span>
               </div>
@@ -183,7 +183,7 @@ export default function Landing() {
               <div className="flex-1 text-white">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                    <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                    <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" /></svg>
                   </div>
                   <h3 className="text-2xl font-bold">Online Appointment</h3>
                 </div>
@@ -229,13 +229,12 @@ export default function Landing() {
                     <p className="text-white font-bold text-center text-sm">February 2026</p>
                   </div>
                   <div className="grid grid-cols-7 gap-1">
-                    {["S","M","T","W","T","F","S"].map((d,i) => (
+                    {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
                       <div key={i} className="text-white/70 text-xs text-center font-semibold">{d}</div>
                     ))}
-                    {Array.from({length: 28}, (_,i) => (
-                      <div key={i} className={`text-xs text-center py-1 rounded-lg font-medium ${
-                        i+1 === 16 ? "bg-white text-[#00bcd4]" : "text-white"
-                      }`}>{i+1}</div>
+                    {Array.from({ length: 28 }, (_, i) => (
+                      <div key={i} className={`text-xs text-center py-1 rounded-lg font-medium ${i + 1 === 16 ? "bg-white text-[#00bcd4]" : "text-white"
+                        }`}>{i + 1}</div>
                     ))}
                   </div>
                 </div>
@@ -269,7 +268,7 @@ export default function Landing() {
                   <h3 className="font-bold text-gray-900 text-lg">{doc.name}</h3>
                   <p className="text-[#00bcd4] font-semibold text-sm mt-1">{doc.role}</p>
                   <div className="flex justify-center gap-3 mt-4">
-                    {["linkedin","twitter","mail"].map(s => (
+                    {["linkedin", "twitter", "mail"].map(s => (
                       <div key={s} className="w-8 h-8 bg-[#00bcd4]/10 rounded-full flex items-center justify-center hover:bg-[#00bcd4]/20 cursor-pointer transition-colors">
                         <div className="w-3 h-3 bg-[#00bcd4] rounded-sm opacity-70" />
                       </div>

@@ -1,0 +1,26 @@
+{
+    "timestamp": "20260328_082102",
+    "aggregated_dominant_mood": "happy",
+    "mood_counts": {
+        "happy": 1,
+        "sad": 1,
+        "neutral": 1
+    },
+    "sources_used": [
+        {
+            "source": "mouse",
+            "raw": "Browsing_Normal",
+            "mapped": "happy"
+        },
+        {
+            "source": "chat",
+            "raw": "sadness",
+            "mapped": "sad"
+        },
+        {
+            "source": "emotion",
+            "raw": "neutral",
+            "mapped": "neutral"
+        }
+    ]
+}

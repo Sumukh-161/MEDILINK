@@ -1,0 +1,11 @@
+{
+    "timestamp": "20260328_063847",
+    "email": "root@test.com",
+    "dominant_emotion": "Browsing_Normal",
+    "confidence": 61.43,
+    "breakdown": {
+        "Browsing_Normal": 61.43,
+        "Rest": 8.7,
+        "Stressed": 29.87
+    }
+}

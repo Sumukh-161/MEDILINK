@@ -1,0 +1,64 @@
+{
+    "consultation_id": "1",
+    "doctor_name": "Dr. Ramesh",
+    "patient_email": "santoshtalekattu@gmail.com",
+    "frontend_timestamp": "2026-03-27T21:53:54.806Z",
+    "saved_at": "20260328_032354",
+    "message_count": 9,
+    "messages": [
+        {
+            "id": 1774648407747,
+            "sender": "patient",
+            "text": "happy",
+            "time": "03:23"
+        },
+        {
+            "id": 1774648409616,
+            "sender": "patient",
+            "text": "happy",
+            "time": "03:23"
+        },
+        {
+            "id": 1774648411480,
+            "sender": "patient",
+            "text": "happy",
+            "time": "03:23"
+        },
+        {
+            "id": 1774648413026,
+            "sender": "patient",
+            "text": "joy",
+            "time": "03:23"
+        },
+        {
+            "id": 1774648414643,
+            "sender": "patient",
+            "text": "joy",
+            "time": "03:23"
+        },
+        {
+            "id": 1774648416121,
+            "sender": "patient",
+            "text": "joy",
+            "time": "03:23"
+        },
+        {
+            "id": 1774648418736,
+            "sender": "patient",
+            "text": "goood",
+            "time": "03:23"
+        },
+        {
+            "id": 1774648421210,
+            "sender": "patient",
+            "text": "good",
+            "time": "03:23"
+        },
+        {
+            "id": 1774648430633,
+            "sender": "patient",
+            "text": "wonderfull",
+            "time": "03:23"
+        }
+    ]
+}

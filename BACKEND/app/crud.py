@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from app import models
 from passlib.context import CryptContext
 from fastapi import HTTPException
@@ -109,3 +110,20 @@ def get_medications_by_gmail(db: Session, gmail: str):
         models.Medication.user_gmail == gmail
     ).all()
     return medications
+
+
+def get_consultations_by_gmail(db: Session, gmail: str):
+    result = db.execute(
+        text("SELECT * FROM consultation WHERE user_gmail ILIKE :gmail"),
+        {"gmail": gmail}
+    )
+    rows = result.mappings().all()
+    print(f"[DEBUG] Consultation query for '{gmail}' → {len(rows)} row(s) found")
+    return [dict(row) for row in rows]
+
+def get_consultation_bookings(db: Session):
+    return db.query(models.ConsultationBooking).all()
+
+def seed_consultation_bookings(db: Session):
+    pass
+

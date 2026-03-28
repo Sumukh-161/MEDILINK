@@ -1,0 +1,14 @@
+{
+    "timestamp": "20260328_095714",
+    "email": "sandy21@gmail.com",
+    "dominant_emotion": "neutral",
+    "confidence": 43.33,
+    "total_samples": 60,
+    "breakdown": {
+        "happy": 5,
+        "neutral": 26,
+        "angry": 12,
+        "fear": 15,
+        "surprise": 2
+    }
+}
